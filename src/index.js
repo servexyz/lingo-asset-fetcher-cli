@@ -1,18 +1,49 @@
-// require("dotenv").config();
-// console.log(`Hello ${process.env.SAMPLE_ENV}! from node-starter`);
-
 import React from "react";
-import { render, Box, Color } from "ink";
+import { render, Box, Text } from "ink";
+import TextInput from "ink-text-input";
 
-const Demo = () => (
-	<Box>
-		<Color rgb={[255, 255, 255]} bgKeyword="magenta">
-			Hello!
-		</Color>
-		<Color hex="#000000" bgHex="#FFFFFF">
-			Hey there
-		</Color>
-		<Color blue>I'm blue</Color>{" "}
-	</Box>
-);
-render(<Demo />);
+class SearchQuery extends React.Component {
+	constructor() {
+		super();
+
+		this.state = {
+			query: "",
+			error: "",
+			errorInfo: ""
+		};
+
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	componentDidCatch(error, errorInfo) {
+		this.setState({ error, errorInfo });
+	}
+	render() {
+		return (
+			<Box>
+				<Box marginRight={1}>Enter your query:</Box>
+
+				<TextInput value={this.state.query} onChange={this.handleChange} />
+			</Box>
+		);
+	}
+
+	handleChange(query) {
+		this.setState({ query });
+	}
+}
+
+render(<SearchQuery />);
+
+// const Demo = () => (
+// 	<Box>
+// 		<Box>
+// 			<Text bold>I am bold</Text>
+// 			<Text italic>I am italic</Text>
+// 			<Text underline>I am underline</Text>
+// 			<Text strikethrough>I am strikethrough</Text>
+// 		</Box>
+// 	</Box>
+// );
+
+// render(<Demo />);
