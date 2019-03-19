@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: "."
+      # This does not work. env variable wrapped in double quotes
+      dockerfile: Dockerfile.${DEV_OR_PROD}
+    ports:
+      - "9909:9909"
