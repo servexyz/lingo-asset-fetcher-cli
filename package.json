@@ -1,6 +1,6 @@
 {
-	"name": "lingo-asset-fetcher-cli",
-	"version": "1.0.0",
+	"name": "laf",
+	"version": "0.1.0",
 	"main": "build/main.js",
 	"license": "MIT",
 	"repository": {

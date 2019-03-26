@@ -1,0 +1,14 @@
+node_modules
+docs/node-starter-scripts.gif
+docs/NPM.md
+webpack.config.js
+src
+tests
+.babelrc
+.env
+.gitignore
+.gitmodules
+.prettierignore
+.travis.yml
+package-lock.json
+package.json

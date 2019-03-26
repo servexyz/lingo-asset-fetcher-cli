@@ -1,6 +1,7 @@
 import React from "react";
 import { render, Box, Text } from "ink";
 import TextInput from "ink-text-input";
+import init from "lingo-asset-fetcher-lib";
 
 class SearchQuery extends React.Component {
 	constructor() {
@@ -18,6 +19,10 @@ class SearchQuery extends React.Component {
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
 	}
+	/*
+	? How do I add a placeholder value for the TextInput component
+
+	*/
 	render() {
 		return (
 			<Box>
@@ -35,16 +40,3 @@ class SearchQuery extends React.Component {
 }
 
 render(<SearchQuery />);
-
-// const Demo = () => (
-// 	<Box>
-// 		<Box>
-// 			<Text bold>I am bold</Text>
-// 			<Text italic>I am italic</Text>
-// 			<Text underline>I am underline</Text>
-// 			<Text strikethrough>I am strikethrough</Text>
-// 		</Box>
-// 	</Box>
-// );
-
-// render(<Demo />);
