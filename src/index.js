@@ -1,42 +1,50 @@
 import React from "react";
 import { render, Box, Text } from "ink";
 import TextInput from "ink-text-input";
+import SelectInput from "ink-select-input";
+
 import init from "lingo-asset-fetcher-lib";
+import config from "./index.config";
 
-class SearchQuery extends React.Component {
-	constructor() {
-		super();
+init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 
-		this.state = {
-			query: "",
-			error: "",
-			errorInfo: ""
-		};
+// class SearchQuery extends React.Component {
+// 	constructor() {
+// 		super();
 
-		this.handleChange = this.handleChange.bind(this);
-	}
+// 		this.state = {
+// 			query: "",
+// 			error: "",
+// 			errorInfo: ""
+// 		};
 
-	componentDidCatch(error, errorInfo) {
-		this.setState({ error, errorInfo });
-	}
-	/*
-	? How do I add a placeholder value for the TextInput component
+// 		this.handleChange = this.handleChange.bind(this);
+// 	}
 
-	*/
-	render() {
-		return (
-			<Box>
-				<Box marginRight={1}>Enter your query:</Box>
+// 	componentDidCatch(error, errorInfo) {
+// 		this.setState({ error, errorInfo });
+// 	}
+// 	/*
+// 	? How do I add a placeholder value for the TextInput component
 
-				<TextInput value={this.state.query} onChange={this.handleChange} />
-			</Box>
-		);
-	}
+// 	*/
+// 	render() {
+// 		return (
+// 			<Box>
+// 				<Box marginRight={1}>Enter your query:</Box>
+// 				<TextInput
+// 					value={this.state.query}
+// 					onChange={this.handleChange}
+// 					placeholder="name"
+// 				/>
+// 			</Box>
+// 		);
+// 	}
 
-	handleChange(query) {
-		this.setState({ query });
-		console.log(`Updated query: ${this.state.query}`);
-	}
-}
+// 	handleChange(query) {
+// 		this.setState({ query });
+// 		console.log(`Updated query: ${this.state.query}`);
+// 	}
+// }
 
-render(<SearchQuery />);
+// render(<SearchQuery />);

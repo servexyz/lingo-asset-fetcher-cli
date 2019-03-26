@@ -32,8 +32,9 @@
 	"dependencies": {
 		"dotenv": "^6.1.0",
 		"ink": "^2.0.6",
+		"ink-select-input": "^3.1.0",
 		"ink-text-input": "^3.0.0",
-		"lingo-asset-fetcher-lib": "^0.2.0",
+		"lingo-asset-fetcher-lib": "^0.2.4",
 		"react": "^16.8.4"
 	},
 	"scripts": {
