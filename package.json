@@ -10,7 +10,7 @@
 	"devDependencies": {
 		"@ava/babel-preset-stage-4": "^1.1.0",
 		"@babel/core": "7.1.2",
-		"@babel/node": "7.0.0",
+		"@babel/node": "^7.0.0",
 		"@babel/polyfill": "^7.0.0",
 		"@babel/preset-env": "7.1.0",
 		"@babel/preset-react": "^7.0.0",
@@ -36,24 +36,16 @@
 		"react": "^16.8.4"
 	},
 	"scripts": {
-		"start": "npm run dev",
-		"clean": "npm run clean:docker",
-		"clean:build": "rm -Rf ./build",
-		"clean:docker": "docker rm -f $(docker ps -aqf 'name=node-starter')",
-		"dev": "npm run dev:liveReloadedModule",
+		"start": "npm run build && node build/main.js",
+		"clean": "rm -Rf ./build",
+		"dev": "npm run dev:builtModule",
 		"dev:vanillaModule": "babel-node src/index.js",
-		"dev:builtModule": "npm run build && babel-node build/main.js",
-		"dev:liveReloadedModule": "nodemon --watch src/index.js --exec 'babel-node src/index.js'",
-		"dev:liveReloadedDocker": "npm-run-all -p docker:compose dev:liveReloadedModule docker:liveReload ",
-		"docker:liveReload": "npx docker-live-reload 'src/**/*' node-starter_server_1 /usr/src/server/src",
-		"docker:compose": "docker-compose up -d",
-		"dev:server": "webpack --mode development --watch --display minimal",
+		"dev:builtModule": "npm run build && node build/main.js",
 		"test": "npm-run-all -s clean:build build test:liveReloadedAva",
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
 		"build": "webpack --mode production --display minimal",
 		"publish": "npm run build && npm run publish:np",
-		"production:server": "npm run build && node build/main.js",
 		"publish:np": "npx np"
 	},
 	"ava": {

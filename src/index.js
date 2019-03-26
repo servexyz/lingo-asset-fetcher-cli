@@ -30,6 +30,7 @@ class SearchQuery extends React.Component {
 
 	handleChange(query) {
 		this.setState({ query });
+		console.log(`Updated query: ${this.state.query}`);
 	}
 }
 
