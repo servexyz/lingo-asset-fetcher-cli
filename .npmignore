@@ -1,4 +1,5 @@
 node_modules
+downloads
 docs/node-starter-scripts.gif
 docs/NPM.md
 webpack.config.js
