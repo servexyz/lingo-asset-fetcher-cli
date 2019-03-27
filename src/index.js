@@ -8,43 +8,71 @@ import config from "./index.config";
 
 laf.init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 
-// class SearchQuery extends React.Component {
-// 	constructor() {
-// 		super();
+/*
+  * Select Input: [Add relevant environment variables, Generate config boilerplate]
+  1. Relevant environment variables: 
 
-// 		this.state = {
-// 			query: "",
-// 			error: "",
-// 			errorInfo: ""
-// 		};
+  * Text Input: 
+  1. Lingo Space ID: 000000
+  2. API Key: token
 
-// 		this.handleChange = this.handleChange.bind(this);
-// 	}
+  * Text Input: 
+  1. How many kits? 2
+  2. Name of kit: Foobar
+  3. Name of kit: Foobar
+*/
 
-// 	componentDidCatch(error, errorInfo) {
-// 		this.setState({ error, errorInfo });
-// 	}
-// 	/*
-// 	? How do I add a placeholder value for the TextInput component
+class SearchQuery extends React.Component {
+	constructor() {
+		super();
 
-// 	*/
-// 	render() {
-// 		return (
-// 			<Box>
-// 				<Box marginRight={1}>Enter your query:</Box>
-// 				<TextInput
-// 					value={this.state.query}
-// 					onChange={this.handleChange}
-// 					placeholder="name"
-// 				/>
-// 			</Box>
-// 		);
-// 	}
+		this.state = {
+			query: "",
+			error: "",
+			errorInfo: "",
+			wydValue: ""
+		};
 
-// 	handleChange(query) {
-// 		this.setState({ query });
-// 		console.log(`Updated query: ${this.state.query}`);
-// 	}
-// }
+		this.handleChange = this.handleChange.bind(this);
+		this.handleWydSelect = this.handleWydSelect.bind(this);
+	}
 
-// render(<SearchQuery />);
+	componentDidCatch(error, errorInfo) {
+		this.setState({ error, errorInfo });
+	}
+	render() {
+		const wydItems = [
+			{
+				label: "Add environment variables",
+				value: "env"
+			},
+			{
+				label: "Generate config boilerplate",
+				value: "config"
+			}
+		];
+		return (
+			<Box>
+				<Box marginRight={1}>What would you like to do?</Box>
+				<SelectInput items={wydItems} onSelect={this.handleWydSelect} />
+				{/* <TextInput
+					value={this.state.query}
+					onChange={this.handleChange}
+					placeholder="name"
+				/> */}
+			</Box>
+		);
+	}
+
+	handleChange(query) {
+		this.setState({ query });
+		console.log(`Updated query: ${this.state.query}`);
+	}
+	handleWydSelect({ value: wydValue } = selection) {
+		//Above syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
+		this.setState({ wydValue });
+		console.log(`wyd selected: ${JSON.stringify(wydValue, null, 2)}`);
+	}
+}
+
+render(<SearchQuery />);
