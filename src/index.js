@@ -3,10 +3,10 @@ import { render, Box, Text } from "ink";
 import TextInput from "ink-text-input";
 import SelectInput from "ink-select-input";
 
-import init from "lingo-asset-fetcher-lib";
+import * as laf from "lingo-asset-fetcher-lib";
 import config from "./index.config";
 
-init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
+laf.init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 
 // class SearchQuery extends React.Component {
 // 	constructor() {
