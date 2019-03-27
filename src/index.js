@@ -2,6 +2,7 @@ import React from "react";
 import { render, Box, Text } from "ink";
 import TextInput from "ink-text-input";
 import SelectInput from "ink-select-input";
+const log = console.log;
 
 import * as laf from "lingo-asset-fetcher-lib";
 import config from "./index.config";
@@ -27,51 +28,76 @@ class SearchQuery extends React.Component {
 		super();
 
 		this.state = {
-			query: "",
 			error: "",
 			errorInfo: "",
-			wydValue: ""
+			phase: "",
+			textInput: "",
+			selectInput: ""
 		};
 
-		this.handleChange = this.handleChange.bind(this);
-		this.handleWydSelect = this.handleWydSelect.bind(this);
+		this.handleIntro = this.handleIntro.bind(this); // What are you doing?
+		this.handleEnvChange = this.handleEnvChange.bind(this);
+		// this.handleEnvSubmit = this.handleEnvSubmit.bind(this);
 	}
 
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
 	}
 	render() {
+		let component;
 		const wydItems = [
 			{
 				label: "Add environment variables",
-				value: "env"
+				value: "env_space_id"
 			},
 			{
 				label: "Generate config boilerplate",
 				value: "config"
 			}
 		];
-		return (
-			<Box>
-				<Box marginRight={1}>What would you like to do?</Box>
-				<SelectInput items={wydItems} onSelect={this.handleWydSelect} />
-				{/* <TextInput
-					value={this.state.query}
-					onChange={this.handleChange}
-					placeholder="name"
-				/> */}
-			</Box>
-		);
+		if (this.state.phase == "") {
+			component = <SelectInput items={wydItems} onSelect={this.handleIntro} />;
+		} else if (this.state.phase == "env_space_id") {
+			component = (
+				<Box>
+					<Text>What's your spaceId?</Text>
+					<TextInput
+						value={this.state.textInput}
+						onChange={this.handleEnvChange}
+						onSubmit={() => this.handleEnvSubmit("env_api_token")}
+						placeholder="000000"
+					/>
+				</Box>
+			);
+		} else if (this.state.phase == "env_api_token") {
+			component = <Text>made it</Text>;
+		} else if (this.state.phase == "config") {
+			component = (
+				<Box>
+					<TextInput
+						value={this.state.textInput}
+						onChange={this.handleEnvChange}
+						onSubmit={() => this.handleEnvSubmit("config_two")}
+						placeholder="name"
+					/>
+				</Box>
+			);
+		}
+		return <Box>{component}</Box>;
 	}
 
-	handleChange(query) {
-		this.setState({ query });
-		console.log(`Updated query: ${this.state.query}`);
+	handleEnvChange(textInput) {
+		// console.log(`textInput: ${textInput}`);
+		this.setState({ textInput });
 	}
-	handleWydSelect({ value: wydValue } = selection) {
+	handleEnvSubmit(phase) {
+		log(`\nphase: ${phase}`);
+		this.setState({ phase });
+	}
+	handleIntro({ value: phase } = selection) {
 		//Above syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
-		this.setState({ wydValue });
-		console.log(`wyd selected: ${JSON.stringify(wydValue, null, 2)}`);
+		log(`\nphase: ${phase}`);
+		this.setState({ phase });
 	}
 }
 
