@@ -69,29 +69,41 @@ class SearchQuery extends React.Component {
 	// 	}));
 	// }
 	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
-	handleEnvOutput(outputLoc) {
+	setNestedStateEnv(kv) {
+		let key = Object.keys(kv);
 		this.setState(({ env }) => ({
 			env: {
 				...env,
-				outputLoc
+				[key]: kv[key]
 			}
 		}));
+	}
+	handleEnvOutput(outputLoc) {
+		// this.setState(({ env }) => ({
+		// 	env: {
+		// 		...env,
+		// 		outputLoc
+		// 	}
+		// }));
+		this.setNestedStateEnv({ outputLoc });
 	}
 	handleEnvApiToken(apiToken) {
-		this.setState(({ env }) => ({
-			env: {
-				...env,
-				apiToken
-			}
-		}));
+		// this.setState(({ env }) => ({
+		// 	env: {
+		// 		...env,
+		// 		apiToken
+		// 	}
+		// }));
+		this.setNestedStateEnv({ apiToken });
 	}
 	handleEnvSpaceId(spaceId) {
-		this.setState(({ env }) => ({
-			env: {
-				...env,
-				spaceId
-			}
-		}));
+		// this.setState(({ env }) => ({
+		// 	env: {
+		// 		...env,
+		// 		spaceId
+		// 	}
+		// }));
+		this.setNestedStateEnv({ spaceId });
 	}
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
