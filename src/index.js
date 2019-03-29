@@ -33,10 +33,15 @@ class SearchQuery extends React.Component {
 			error: "",
 			errorInfo: "",
 			phase: "",
+			introQuestion: "What would you like to do? \n",
 			env: {
 				spaceId: "",
 				apiToken: "",
 				outputLoc: ""
+			},
+			config: {
+				quantity: "",
+				kits: []
 			}
 		};
 		// * SelectInput
@@ -45,6 +50,7 @@ class SearchQuery extends React.Component {
 		// * TextInput
 		this.handleEnvApiToken = this.handleEnvApiToken.bind(this);
 		this.handleEnvSpaceId = this.handleEnvSpaceId.bind(this);
+		this.handleConfigKitQuantity = this.handleConfigKitQuantity.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
@@ -63,11 +69,18 @@ class SearchQuery extends React.Component {
 			}
 		}));
 	}
-	// handleEnv(kv) {
-	// 	let key = Object.keys(kv);
-	// 	log(`key: ${key}`);
-	// 	this.setNestedStateEnv({ [key]: kv[key] });
-	// }
+	setNestedStateConfig(kv) {
+		let key = Object.keys(kv);
+		this.setState(({ config }) => ({
+			config: {
+				...config,
+				[key]: kv[key]
+			}
+		}));
+	}
+	componentDidCatch(error, errorInfo) {
+		this.setState({ error, errorInfo });
+	}
 	handleEnvOutput(outputLoc) {
 		//TODO: Figure out workaround to the onHighlight failure
 		this.setNestedStateEnv({ outputLoc });
@@ -78,11 +91,12 @@ class SearchQuery extends React.Component {
 	handleEnvSpaceId(spaceId) {
 		this.setNestedStateEnv({ spaceId });
 	}
-	componentDidCatch(error, errorInfo) {
-		this.setState({ error, errorInfo });
+	handleConfigKitQuantity(quantity) {
+		this.setNestedStateConfig({ quantity });
 	}
-	//TODO: Break env and config into functions
 	render() {
+		//TODO: Consider breaking env and config conditions into functions
+		//TODO: Consider switching (ha) to a switch instead of flat if tree
 		let component;
 		if (this.state.phase == "") {
 			const wydItems = [
@@ -97,6 +111,7 @@ class SearchQuery extends React.Component {
 			];
 			component = (
 				<Box>
+					<Text>{this.state.introQuestion}</Text>
 					<SelectInput items={wydItems} onSelect={this.handleIntro} />
 				</Box>
 			);
@@ -133,6 +148,10 @@ class SearchQuery extends React.Component {
 				{
 					label: "Write to clipboard",
 					value: "clipboard"
+				},
+				{
+					label: "Exit",
+					value: "exit"
 				}
 			];
 			component = (
@@ -152,45 +171,43 @@ class SearchQuery extends React.Component {
 			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
 				this.state.env.apiToken
 			}'`;
+
 			switch (this.state.env.outputLoc) {
 				case "dotEnv":
 					fs.outputFile(".env", data, err => {
 						if (err) {
 							throw err;
 						}
-						log(`data written to .env \n --------------------\n${data}`);
 					});
 					break;
 				case "clipboard":
 					clipboardy.writeSync(data);
 					break;
 			}
+			this.setState({ phase: "" });
+		} else if (this.state.phase == "configKitQuantity") {
 			component = (
 				<Box>
-					<Text>Finished {JSON.stringify(this.state, null, 2)}</Text>
+					<Text>
+						How many kits would you like to download assets from? {"\n"}
+					</Text>
+					<TextInput
+						value={this.state.config.quantity}
+						onChange={this.handleConfigKitQuantity}
+						onSubmit={this.updatePhase("configKitName")}
+						placeholder="name"
+					/>
 				</Box>
 			);
-		}
+		} // else if (this.state.phase == "configKitName") {
+		// 	component = (
+
+		// 	)
+		// }
+
 		//TODO: Add check to see if gitignore exists. If not, offer to create one
 		return <Box>{component}</Box>;
 	}
 }
 
 render(<SearchQuery />);
-// else if (this.state.phase == "configKitQuantity") {
-// 	component = (
-// 		<Box>
-// 			<Box>
-// 				<Text>How many kits would you like to download assets from?</Text>
-// 			</Box>
-// 			<Box>
-// 				<TextInput
-// 					value={this.state.config.quantity}
-// 					onChange={this.handleConfigKitQuantity}
-// 					onSubmit={this.updatePhase("configKitName")}
-// 					placeholder="name"
-// 				/>
-// 			</Box>
-// 		</Box>
-// 	);
-// }
