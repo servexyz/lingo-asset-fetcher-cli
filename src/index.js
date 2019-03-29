@@ -53,21 +53,6 @@ class SearchQuery extends React.Component {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
 	}
-	// setNestedState(parentObject, childKey, childValue) {
-	// 	let obj = this.state[parentObject];
-	// 	let key = [parentObject];
-	// 	log(`key: ${key}`);
-	// 	log(`obj: ${JSON.stringify(obj, null, 2)}`);
-	// 	log(`childKey: ${JSON.stringify(childKey, null, 2)}`);
-	// 	log(`childValue: ${JSON.stringify(childValue, null, 2)}`);
-	// 	log(`parentObject: ${JSON.stringify(parentObject, null, 2)}`);
-	// 	this.setState(({ obj }) => ({
-	// 		[key]: {
-	// 			...obj,
-	// 			[childKey]: childValue
-	// 		}
-	// 	}));
-	// }
 	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
 	setNestedStateEnv(kv) {
 		let key = Object.keys(kv);
