@@ -11,6 +11,11 @@ import config from "./index.config";
 
 // laf.init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 
+// Library: Use case
+//--------------------------------------
+// INK: Config generation
+// MEOW: Running from package.json
+
 /*
   * Select Input: [Add relevant environment variables, Generate config boilerplate]
   1. Relevant environment variables: 
@@ -167,20 +172,22 @@ class SearchQuery extends React.Component {
 			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
 				this.state.env.apiToken
 			}'`;
-
-			switch (this.state.env.outputLoc) {
-				case "dotEnv":
-					fs.outputFile(".env", data, err => {
-						if (err) {
-							throw err;
-						}
-					});
-					break;
-				case "clipboard":
+			if (this.state.env.outputLoc == "dotEnv") {
+				fs.outputFile(".env", data, err => {
+					if (err) {
+						throw err;
+					} else {
+						this.updatePhase("configKitQuantity");
+					}
+				});
+			} else if (this.state.env.outputLoc == "") {
+				try {
 					clipboardy.writeSync(data);
-					break;
+					this.updatePhase("configKitQuantity");
+				} catch (err) {
+					log(`clipboardy() ${err}`);
+				}
 			}
-			this.setState({ phase: "" });
 		} else if (this.state.phase == "configKitQuantity") {
 			component = (
 				<Box>
@@ -198,8 +205,8 @@ class SearchQuery extends React.Component {
 				<Box>
 					<Text>What's the name of your kit's config?</Text>
 					<Text>
-						Quantity: {this.state.config.quantity} \n Length:{" "}
-						{this.state.config.kits}
+						Quantity: {this.state.config.quantity}
+						Length: {this.state.config.kits}
 					</Text>
 					<TextInput
 						value={this.state.config.kits}
