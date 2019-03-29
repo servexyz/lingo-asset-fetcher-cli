@@ -63,7 +63,13 @@ class SearchQuery extends React.Component {
 			}
 		}));
 	}
+	// handleEnv(kv) {
+	// 	let key = Object.keys(kv);
+	// 	log(`key: ${key}`);
+	// 	this.setNestedStateEnv({ [key]: kv[key] });
+	// }
 	handleEnvOutput(outputLoc) {
+		//TODO: Figure out workaround to the onHighlight failure
 		this.setNestedStateEnv({ outputLoc });
 	}
 	handleEnvApiToken(apiToken) {
@@ -134,8 +140,10 @@ class SearchQuery extends React.Component {
 					<Text>{`Where would you like to output this data?\n`}</Text>
 					<SelectInput
 						items={envOutputItems}
-						onHighlight={this.handleEnvOutput}
-						onSelect={() => this.updatePhase("envDone")}
+						onSelect={({ value } = outputLoc) => {
+							this.handleEnvOutput(value);
+							this.updatePhase("envDone");
+						}}
 					/>
 				</Box>
 			);
