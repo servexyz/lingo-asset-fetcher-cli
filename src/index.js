@@ -148,10 +148,6 @@ class SearchQuery extends React.Component {
 				{
 					label: "Write to clipboard",
 					value: "clipboard"
-				},
-				{
-					label: "Exit",
-					value: "exit"
 				}
 			];
 			component = (
@@ -188,22 +184,41 @@ class SearchQuery extends React.Component {
 		} else if (this.state.phase == "configKitQuantity") {
 			component = (
 				<Box>
-					<Text>
-						How many kits would you like to download assets from? {"\n"}
-					</Text>
+					<Text>How many kits would you like to download assets from?</Text>
 					<TextInput
 						value={this.state.config.quantity}
 						onChange={this.handleConfigKitQuantity}
-						onSubmit={this.updatePhase("configKitName")}
+						onSubmit={this.updatePhase("")}
 						placeholder="name"
 					/>
 				</Box>
 			);
-		} // else if (this.state.phase == "configKitName") {
-		// 	component = (
-
-		// 	)
-		// }
+		} else if (this.state.phase == "configKitName") {
+			component = (
+				<Box>
+					<Text>What's the name of your kit's config?</Text>
+					<Text>
+						Quantity: {this.state.config.quantity} \n Length:{" "}
+						{this.state.config.kits}
+					</Text>
+					<TextInput
+						value={this.state.config.kits}
+						// onSubmit={() => {
+						// 	this.state.config.quantity > this.state.config.kits.length
+						// 		? this.updatePhase("configKitName")
+						// 		: this.updatePhase("end");
+						// }}
+						// onSubmit={() => {
+						// 	this.state.config.quantity > this.state.config.kits.length
+						// 		? this.updatePhase("configKitName")
+						// 		: this.updatePhase("end");
+						// }}
+					/>
+				</Box>
+			);
+		} else if (this.state.phase == "end") {
+			log(`this.state:${JSON.stringify(this.state, null, 2)}`);
+		}
 
 		//TODO: Add check to see if gitignore exists. If not, offer to create one
 		return <Box>{component}</Box>;
