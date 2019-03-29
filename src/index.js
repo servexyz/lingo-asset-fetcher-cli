@@ -79,30 +79,12 @@ class SearchQuery extends React.Component {
 		}));
 	}
 	handleEnvOutput(outputLoc) {
-		// this.setState(({ env }) => ({
-		// 	env: {
-		// 		...env,
-		// 		outputLoc
-		// 	}
-		// }));
 		this.setNestedStateEnv({ outputLoc });
 	}
 	handleEnvApiToken(apiToken) {
-		// this.setState(({ env }) => ({
-		// 	env: {
-		// 		...env,
-		// 		apiToken
-		// 	}
-		// }));
 		this.setNestedStateEnv({ apiToken });
 	}
 	handleEnvSpaceId(spaceId) {
-		// this.setState(({ env }) => ({
-		// 	env: {
-		// 		...env,
-		// 		spaceId
-		// 	}
-		// }));
 		this.setNestedStateEnv({ spaceId });
 	}
 	componentDidCatch(error, errorInfo) {
