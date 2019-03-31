@@ -177,6 +177,7 @@ class SearchQuery extends React.Component {
 					if (err) {
 						throw err;
 					} else {
+						//TODO: Oh, lol stop updating state from within render silly goose
 						this.updatePhase("configKitQuantity");
 					}
 				});
@@ -232,4 +233,5 @@ class SearchQuery extends React.Component {
 	}
 }
 
+log(`foo`);
 render(<SearchQuery />);

@@ -44,6 +44,7 @@
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:builtModule",
 		"dev:vanillaModule": "babel-node src/index.js",
+		"dev:liveReloadedModule": "nodemon --no-stdin --watch src/index.js --exec 'babel-node src/index.js'",
 		"dev:builtModule": "npm run build && node build/main.js",
 		"test": "npm-run-all -s clean:build build test:liveReloadedAva",
 		"test:ava": "ava",
