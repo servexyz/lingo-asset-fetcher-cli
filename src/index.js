@@ -56,6 +56,11 @@ class SearchQuery extends React.Component {
 		this.handleEnvApiToken = this.handleEnvApiToken.bind(this);
 		this.handleEnvSpaceId = this.handleEnvSpaceId.bind(this);
 		this.handleConfigKitQuantity = this.handleConfigKitQuantity.bind(this);
+		this.handleConfigKitName = this.handleConfigKitName.bind(this);
+		// * Render
+		this.renderIntro = this.renderIntro.bind(this);
+		this.renderEnv = this.renderEnv.bind(this);
+		this.renderConfig = this.renderConfig.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
@@ -63,6 +68,10 @@ class SearchQuery extends React.Component {
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
+	}
+	handleConfigKitName(name) {
+		let idx = this.state.config.kits.length;
+		this.setNestedStateConfig({ idx });
 	}
 	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
 	setNestedStateEnv(kv) {
@@ -99,9 +108,7 @@ class SearchQuery extends React.Component {
 	handleConfigKitQuantity(quantity) {
 		this.setNestedStateConfig({ quantity });
 	}
-	render() {
-		//TODO: Consider breaking env and config conditions into functions
-		//TODO: Consider switching (ha) to a switch instead of flat if tree
+	renderIntro() {
 		let component;
 		if (this.state.phase == "") {
 			const wydItems = [
@@ -120,7 +127,11 @@ class SearchQuery extends React.Component {
 					<SelectInput items={wydItems} onSelect={this.handleIntro} />
 				</Box>
 			);
-		} else if (this.state.phase == "envSpaceId") {
+		}
+	}
+	renderEnv() {
+		let component;
+		if (this.state.phase == "envSpaceId") {
 			component = (
 				<Box>
 					<Text>What's your Lingo Space ID?</Text>&nbsp;
@@ -167,36 +178,57 @@ class SearchQuery extends React.Component {
 					/>
 				</Box>
 			);
-		} else if (this.state.phase == "envDone") {
+		} else if (
+			this.state.phase == "envDone" &&
+			this.state.env.outputLoc == "dotEnv"
+		) {
 			//TODO: Output to .env
 			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
 				this.state.env.apiToken
 			}'`;
-			if (this.state.env.outputLoc == "dotEnv") {
-				fs.outputFile(".env", data, err => {
-					if (err) {
-						throw err;
-					} else {
-						//TODO: Oh, lol stop updating state from within render silly goose
-						this.updatePhase("configKitQuantity");
-					}
-				});
-			} else if (this.state.env.outputLoc == "") {
-				try {
-					clipboardy.writeSync(data);
-					this.updatePhase("configKitQuantity");
-				} catch (err) {
-					log(`clipboardy() ${err}`);
-				}
-			}
-		} else if (this.state.phase == "configKitQuantity") {
+			// let text = "";
+			// log(`dotEnv chosen`);
+			// fs.outputFile(".env", data, err => {
+			// 	if (err) {
+			// 		throw err;
+			// 		text = "dotEnv Error";
+			// 	} else {
+			// 		// this.updatePhase("configKitQuantity");
+			// 		text = "dotEnv successs";
+			// 	}
+			// });
+			component = (
+				<Box>
+					<Text>{JSON.stringify(data, null, 2)}</Text>
+				</Box>
+			);
+		} else if (
+			this.state.phase == "envDone" &&
+			this.state.env.outputLoc == "clipboard"
+		) {
+			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
+				this.state.env.apiToken
+			}'`;
+			log(`clipboard chosen`);
+			clipboardy.writeSync(data);
+			component = (
+				<Box>
+					<Text>config chosen</Text>
+				</Box>
+			);
+		}
+		return component;
+	}
+	renderConfig() {
+		let component;
+		if (this.state.phase == "configKitQuantity") {
 			component = (
 				<Box>
 					<Text>How many kits would you like to download assets from?</Text>
 					<TextInput
 						value={this.state.config.quantity}
 						onChange={this.handleConfigKitQuantity}
-						onSubmit={this.updatePhase("")}
+						onSubmit={this.updatePhase("configKitName")}
 						placeholder="name"
 					/>
 				</Box>
@@ -211,16 +243,12 @@ class SearchQuery extends React.Component {
 					</Text>
 					<TextInput
 						value={this.state.config.kits}
-						// onSubmit={() => {
-						// 	this.state.config.quantity > this.state.config.kits.length
-						// 		? this.updatePhase("configKitName")
-						// 		: this.updatePhase("end");
-						// }}
-						// onSubmit={() => {
-						// 	this.state.config.quantity > this.state.config.kits.length
-						// 		? this.updatePhase("configKitName")
-						// 		: this.updatePhase("end");
-						// }}
+						onChange={this.handleConfigKitName}
+						onSubmit={() => {
+							this.state.config.quantity > this.state.config.kits.length
+								? this.updatePhase("configKitName")
+								: this.updatePhase("end");
+						}}
 					/>
 				</Box>
 			);
@@ -228,10 +256,23 @@ class SearchQuery extends React.Component {
 			log(`this.state:${JSON.stringify(this.state, null, 2)}`);
 		}
 
+		return component;
+	}
+	render() {
+		//TODO: Consider breaking env and config conditions into functions
+		//TODO: Consider switching (ha) to a switch instead of flat if tree
 		//TODO: Add check to see if gitignore exists. If not, offer to create one
-		return <Box>{component}</Box>;
+
+		let renderFn;
+		if (this.state.phase == "") {
+			renderFn = this.renderIntro;
+		} else if (this.state.phase.includes("env")) {
+			renderFn = this.renderEnv;
+		} else if (this.state.phase.includes("config")) {
+			renderFn = this.renderConfig;
+		}
+		return renderFn();
 	}
 }
 
-log(`foo`);
 render(<SearchQuery />);
