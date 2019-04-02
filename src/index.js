@@ -49,6 +49,7 @@ class SearchQuery extends React.Component {
 			},
 			config: {
 				quantity: "",
+				index: 0,
 				kits: []
 			}
 		};
@@ -113,6 +114,7 @@ class SearchQuery extends React.Component {
 		this.setNestedStateConfig({ quantity });
 	}
 	cIntro() {
+		//TODO: Add exit as third option
 		const wydItems = [
 			{
 				label: "Add environment variables",
@@ -219,18 +221,16 @@ class SearchQuery extends React.Component {
 			return (
 				<Box>
 					<Text>What's the name of your kit's config?</Text>
-					<Text>
-						Quantity: {this.state.config.quantity}
-						Length: {this.state.config.kits}
-					</Text>
+					<Text>Quantity: {this.state.config.quantity}</Text>
 					<TextInput
-						value={this.state.config.kits}
+						value={this.state.config.kits[this.state.config.index]}
 						onChange={this.handleConfigKitName}
-						onSubmit={() => {
-							this.state.config.quantity > this.state.config.kits.length
-								? () => this.updatePhase("configKitName")
-								: () => this.updatePhase("end");
-						}}
+						// onSubmit={() => {
+						// 	this.state.config.quantity >
+						// 	Array.from(this.state.config.kits).length
+						// 		? () => this.updatePhase("configKitName")
+						// 		: () => this.updatePhase("end");
+						// }}
 					/>
 				</Box>
 			);
