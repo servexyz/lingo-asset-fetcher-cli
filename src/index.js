@@ -1,5 +1,5 @@
 import React from "react";
-import { render, Box, Text } from "ink";
+import { render, Box, Text, Color } from "ink";
 import TextInput from "ink-text-input";
 import SelectInput from "ink-select-input";
 import fs from "fs-extra";
@@ -53,6 +53,7 @@ class SearchQuery extends React.Component {
 				kits: []
 			}
 		};
+		//TODO: Cleanup binds. Don't actually need the render or components. Just added out of habit
 		// * SelectInput
 		this.handleIntro = this.handleIntro.bind(this);
 		this.handleEnvOutput = this.handleEnvOutput.bind(this);
@@ -66,12 +67,20 @@ class SearchQuery extends React.Component {
 		this.renderConfig = this.renderConfig.bind(this);
 		// * Components
 		this.cIntro = this.cIntro.bind(this);
+		this.cEmptyBoilerplate = this.cEmptyBoilerplate.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
 	}
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
+		log(`phase: ${phase}`);
+		if (phase == "emptyBoilerplate") {
+			log(`inside`);
+			return this.cEmptyBoilerplate();
+		} else if (phase == "interactiveBoilerplate") {
+			return this.renderEnv();
+		}
 		this.setState({ phase });
 	}
 	handleConfigKitName(name) {
@@ -117,12 +126,12 @@ class SearchQuery extends React.Component {
 		//TODO: Add exit as third option
 		const wydItems = [
 			{
-				label: "Add environment variables",
-				value: "envSpaceId"
+				label: "Generate empty boilerplate",
+				value: "emptyBoilerplate"
 			},
 			{
-				label: "Generate config boilerplate",
-				value: "configKitQuantity"
+				label: "Generate boilerplate interactively",
+				value: "interactiveBoilerplate"
 			}
 		];
 		return (
@@ -132,6 +141,79 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
+	cConfigKitQuantity() {
+		return (
+			<Box>
+				<Text>How many kits would you like to download assets from?</Text>
+				&nbsp;
+				<TextInput
+					value={this.state.config.quantity}
+					onChange={this.handleConfigKitQuantity}
+					onSubmit={() => this.updatePhase("configKitName")}
+					placeholder="#"
+				/>
+			</Box>
+		);
+	}
+	async cEmptyBoilerplate(rootDir = "./") {
+		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
+		let config = {
+			name: ".laf.json",
+			value: {
+				kits: [
+					{
+						name: "",
+						sections: [
+							{
+								name: ""
+							},
+							{
+								name: "",
+								headers: ["", ""]
+							}
+						]
+					},
+					{
+						name: "",
+						sections: [
+							{
+								name: "",
+								headers: ["", ""]
+							},
+							{
+								name: ""
+							}
+						]
+					}
+				]
+			}
+		};
+		log(`cEmpty called`);
+		try {
+			log(`inside`);
+			await fs.outputFile(`${rootDir}/${config.name}`, env.value);
+			await fs.outputFile(
+				`${rootDir}/${config.name}`,
+				JSON.stringify(config.value, null, 2)
+			);
+		} catch (err) {
+			return (
+				<Box>
+					<Color blue>cEmptyBoilerplate(): </Color>
+					<Color red>Error: {err}</Color>
+				</Box>
+			);
+		}
+		return (
+			<Box>
+				<Text>
+					<Color blue>{config.name}</Color> and <Color blue>{env.name}</Color>{" "}
+					have been created
+				</Text>
+			</Box>
+		);
+	}
+	cInteractiveBoilerplate() {}
 
 	renderEnv() {
 		if (this.state.phase == "envSpaceId") {
@@ -191,7 +273,7 @@ class SearchQuery extends React.Component {
 			fs.outputFile(".env", data, err => {
 				if (err) throw err;
 			});
-			return this.cIntro();
+			return this.cConfigKitQuantity();
 		} else if (
 			this.state.phase == "envDone" &&
 			this.state.env.outputLoc == "clipboard"
@@ -200,23 +282,13 @@ class SearchQuery extends React.Component {
 				this.state.env.apiToken
 			}'`;
 			clipboardy.writeSync(data);
-			return this.cIntro();
+			return this.cConfigKitQuantity();
 		}
 	}
 	renderConfig() {
 		if (this.state.phase == "configKitQuantity") {
-			return (
-				<Box>
-					<Text>How many kits would you like to download assets from?</Text>
-					&nbsp;
-					<TextInput
-						value={this.state.config.quantity}
-						onChange={this.handleConfigKitQuantity}
-						onSubmit={() => this.updatePhase("configKitName")}
-						placeholder="#"
-					/>
-				</Box>
-			);
+			//* Not necessary since auto rendered as follow up to .env
+			return this.cConfigKitQuantity();
 		} else if (this.state.phase == "configKitName") {
 			return (
 				<Box>
@@ -225,12 +297,6 @@ class SearchQuery extends React.Component {
 					<TextInput
 						value={this.state.config.kits[this.state.config.index]}
 						onChange={this.handleConfigKitName}
-						// onSubmit={() => {
-						// 	this.state.config.quantity >
-						// 	Array.from(this.state.config.kits).length
-						// 		? () => this.updatePhase("configKitName")
-						// 		: () => this.updatePhase("end");
-						// }}
 					/>
 				</Box>
 			);
@@ -248,6 +314,7 @@ class SearchQuery extends React.Component {
 		} else if (this.state.phase.includes("env")) {
 			return this.renderEnv();
 		} else if (this.state.phase.includes("config")) {
+			//* Not necessary since auto rendered as follow up to .env
 			return this.renderConfig();
 		} else if ((this.state.phase.length == 3) & (this.state.phase == "end")) {
 			return (
