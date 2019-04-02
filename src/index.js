@@ -61,9 +61,10 @@ class SearchQuery extends React.Component {
 		this.handleConfigKitQuantity = this.handleConfigKitQuantity.bind(this);
 		this.handleConfigKitName = this.handleConfigKitName.bind(this);
 		// * Render
-		this.renderIntro = this.renderIntro.bind(this);
 		this.renderEnv = this.renderEnv.bind(this);
 		this.renderConfig = this.renderConfig.bind(this);
+		// * Components
+		this.cIntro = this.cIntro.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
@@ -111,26 +112,25 @@ class SearchQuery extends React.Component {
 	handleConfigKitQuantity(quantity) {
 		this.setNestedStateConfig({ quantity });
 	}
-	renderIntro() {
-		if (this.state.phase == "") {
-			const wydItems = [
-				{
-					label: "Add environment variables",
-					value: "envSpaceId"
-				},
-				{
-					label: "Generate config boilerplate",
-					value: "configKitQuantity"
-				}
-			];
-			return (
-				<Box>
-					<Text>{this.state.introQuestion}</Text>
-					<SelectInput items={wydItems} onSelect={this.handleIntro} />
-				</Box>
-			);
-		}
+	cIntro() {
+		const wydItems = [
+			{
+				label: "Add environment variables",
+				value: "envSpaceId"
+			},
+			{
+				label: "Generate config boilerplate",
+				value: "configKitQuantity"
+			}
+		];
+		return (
+			<Box>
+				<Text>{this.state.introQuestion}</Text>
+				<SelectInput items={wydItems} onSelect={this.handleIntro} />
+			</Box>
+		);
 	}
+
 	renderEnv() {
 		if (this.state.phase == "envSpaceId") {
 			return (
@@ -157,7 +157,28 @@ class SearchQuery extends React.Component {
 				</Box>
 			);
 		} else if (this.state.phase == "envOutputMethod") {
-			return envOutput();
+			let envOutputItems = [
+				{
+					label: "Write to ./.env",
+					value: "dotEnv"
+				},
+				{
+					label: "Write to clipboard",
+					value: "clipboard"
+				}
+			];
+			return (
+				<Box>
+					<Text>{`Where would you like to output this data?\n`}</Text>
+					<SelectInput
+						items={envOutputItems}
+						onSelect={({ value } = outputLoc) => {
+							this.handleEnvOutput(value);
+							this.updatePhase("envDone");
+						}}
+					/>
+				</Box>
+			);
 		} else if (
 			this.state.phase == "envDone" &&
 			this.state.env.outputLoc == "dotEnv"
@@ -167,13 +188,8 @@ class SearchQuery extends React.Component {
 			}'`;
 			fs.outputFile(".env", data, err => {
 				if (err) throw err;
-				this.updatePhase("");
 			});
-			// return (
-			// 	<Box>
-			// 		<Text>{JSON.stringify(data, null, 2)}</Text>
-			// 	</Box>
-			// );
+			return this.cIntro();
 		} else if (
 			this.state.phase == "envDone" &&
 			this.state.env.outputLoc == "clipboard"
@@ -181,9 +197,8 @@ class SearchQuery extends React.Component {
 			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
 				this.state.env.apiToken
 			}'`;
-			// log(`clipboard chosen`);
 			clipboardy.writeSync(data);
-			this.updatePhase("");
+			return this.cIntro();
 		}
 	}
 	renderConfig() {
@@ -229,7 +244,7 @@ class SearchQuery extends React.Component {
 	}
 	render() {
 		if (this.state.phase == "") {
-			return this.renderIntro();
+			return this.cIntro();
 		} else if (this.state.phase.includes("env")) {
 			return this.renderEnv();
 		} else if (this.state.phase.includes("config")) {
@@ -245,28 +260,3 @@ class SearchQuery extends React.Component {
 }
 
 render(<SearchQuery />);
-
-function envOutput() {
-	let envOutputItems = [
-		{
-			label: "Write to ./.env",
-			value: "dotEnv"
-		},
-		{
-			label: "Write to clipboard",
-			value: "clipboard"
-		}
-	];
-	return (
-		<Box>
-			<Text>{`Where would you like to output this data?\n`}</Text>
-			<SelectInput
-				items={envOutputItems}
-				onSelect={({ value } = outputLoc) => {
-					this.handleEnvOutput(value);
-					this.updatePhase("envDone");
-				}}
-			/>
-		</Box>
-	);
-}
