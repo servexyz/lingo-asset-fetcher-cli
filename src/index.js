@@ -189,7 +189,7 @@ class SearchQuery extends React.Component {
 			fs.outputFile(".env", data, err => {
 				if (err) throw err;
 			});
-			this.cIntro();
+			return this.cIntro();
 		} else if (
 			this.state.phase == "envDone" &&
 			this.state.env.outputLoc == "clipboard"
@@ -198,7 +198,7 @@ class SearchQuery extends React.Component {
 				this.state.env.apiToken
 			}'`;
 			clipboardy.writeSync(data);
-			this.cIntro();
+			return this.cIntro();
 		}
 	}
 	renderConfig() {
