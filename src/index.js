@@ -31,6 +31,8 @@ import config from "./index.config";
 */
 
 //TODO: Inline introQuestion text.
+//TODO: Add a check if laf.json already exists to prevent overwriting
+//TODO: Break up components into second file
 // * Ended up not using it for original purpose.
 
 class SearchQuery extends React.Component {
@@ -65,22 +67,17 @@ class SearchQuery extends React.Component {
 		// * Render
 		this.renderEnv = this.renderEnv.bind(this);
 		this.renderConfig = this.renderConfig.bind(this);
+		this.renderIntro = this.renderIntro.bind(this);
 		// * Components
 		this.cIntro = this.cIntro.bind(this);
 		this.cEmptyBoilerplate = this.cEmptyBoilerplate.bind(this);
+		this.cError = this.cError.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
 	}
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
-		log(`phase: ${phase}`);
-		if (phase == "emptyBoilerplate") {
-			log(`inside`);
-			return this.cEmptyBoilerplate();
-		} else if (phase == "interactiveBoilerplate") {
-			return this.renderEnv();
-		}
 		this.setState({ phase });
 	}
 	handleConfigKitName(name) {
@@ -155,7 +152,15 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
-	async cEmptyBoilerplate(rootDir = "./") {
+	cError(functionName, err) {
+		return (
+			<Box>
+				<Color blue>{functionName}(): </Color>
+				<Color red>Error: {err}</Color>
+			</Box>
+		);
+	}
+	cEmptyBoilerplate(rootDir = "./") {
 		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
 		let config = {
 			name: ".laf.json",
@@ -188,22 +193,16 @@ class SearchQuery extends React.Component {
 				]
 			}
 		};
-		log(`cEmpty called`);
-		try {
-			log(`inside`);
-			await fs.outputFile(`${rootDir}/${config.name}`, env.value);
-			await fs.outputFile(
-				`${rootDir}/${config.name}`,
-				JSON.stringify(config.value, null, 2)
-			);
-		} catch (err) {
-			return (
-				<Box>
-					<Color blue>cEmptyBoilerplate(): </Color>
-					<Color red>Error: {err}</Color>
-				</Box>
-			);
-		}
+		fs.outputFile(`${rootDir}/${config.name}`, env.value, err => {
+			if (err) return this.cError("cEmptyBoilerplate", err);
+		});
+		fs.outputFile(
+			`${rootDir}/${config.name}`,
+			JSON.stringify(config.value, null, 2),
+			err => {
+				if (err) return this.cError("cEmptyBoilerplate", err);
+			}
+		);
 		return (
 			<Box>
 				<Text>
@@ -213,7 +212,23 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
-	cInteractiveBoilerplate() {}
+	// cInteractiveBoilerplate() {}
+	renderIntro() {
+		if (this.state.phase == "emptyBoilerplate") {
+			return (
+				<Box>
+					<Text>Bar</Text>
+				</Box>
+			);
+			// return this.cEmptyBoilerplate();
+		} else if (this.state.phase == "interactiveBoilerplate") {
+			return (
+				<Box>
+					<Text>Foo</Text>
+				</Box>
+			);
+		}
+	}
 
 	renderEnv() {
 		if (this.state.phase == "envSpaceId") {
@@ -311,6 +326,8 @@ class SearchQuery extends React.Component {
 	render() {
 		if (this.state.phase == "") {
 			return this.cIntro();
+		} else if (this.state.phase.includes("Boilerplate") == "") {
+			return this.renderIntro();
 		} else if (this.state.phase.includes("env")) {
 			return this.renderEnv();
 		} else if (this.state.phase.includes("config")) {

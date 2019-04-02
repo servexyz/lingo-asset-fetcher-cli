@@ -49,7 +49,8 @@
 		"test": "npm-run-all -s clean:build build test:liveReloadedAva",
 		"test:ava": "ava",
 		"test:liveReloadedAva": "ava --watch",
-		"build": "webpack --mode production --display minimal"
+		"build": "webpack --mode production --display minimal",
+		"debug": "babel src -d debug --source-maps"
 	},
 	"ava": {
 		"files": [
