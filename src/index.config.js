@@ -3,14 +3,14 @@ export default {
 		targetOne: {
 			sections: [
 				{
-					name: "illustrations"
+					name: "Illustrations"
 				}
 			]
 		},
 		targetTwo: {
 			sections: [
 				{
-					name: "illustrations",
+					name: "Illustrations",
 					headers: ["Lined"]
 				}
 			]
