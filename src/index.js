@@ -50,7 +50,7 @@ class SearchQuery extends React.Component {
 			config: {
 				quantity: "",
 				index: 0,
-				kits: []
+				kits: [""]
 			}
 		};
 
@@ -97,6 +97,8 @@ class SearchQuery extends React.Component {
 		this.setState({ phase });
 	}
 	handleConfigKitName(name) {
+		const { kits } = this.state.config;
+		log(`kits: ${kits}`);
 		let idx = Array.from(this.state.config.kits).length;
 		this.setNestedStateConfig({ idx });
 	}
@@ -303,13 +305,6 @@ class SearchQuery extends React.Component {
 					value={this.state.config.kits[this.state.config.index]}
 					onChange={this.handleConfigKitName}
 				/>
-			</Box>
-		);
-	}
-	cInteractiveBoilerplate() {
-		return (
-			<Box>
-				<Text>Baz</Text>
 			</Box>
 		);
 	}
