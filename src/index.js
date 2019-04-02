@@ -50,7 +50,8 @@ class SearchQuery extends React.Component {
 			config: {
 				quantity: "",
 				index: 0,
-				kits: [""]
+				kits: [],
+				tempKitName: ""
 			}
 		};
 
@@ -96,12 +97,6 @@ class SearchQuery extends React.Component {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
 	}
-	handleConfigKitName(name) {
-		const { kits } = this.state.config;
-		log(`kits: ${kits}`);
-		let idx = Array.from(this.state.config.kits).length;
-		this.setNestedStateConfig({ idx });
-	}
 	handleEnvOutput(outputLoc) {
 		//TODO: Figure out workaround to the onHighlight failure
 		this.setNestedStateEnv({ outputLoc });
@@ -115,7 +110,23 @@ class SearchQuery extends React.Component {
 	handleConfigKitQuantity(quantity) {
 		this.setNestedStateConfig({ quantity });
 	}
-
+	handleConfigKitName(name) {
+		this.setState(state => {});
+	}
+	handleConfigKitName() {
+		this.setState(({ config }) => {
+			const existingKits = state.config.kits === null ? [] : [...state.kits];
+			log(`existingKits: ${existingKits}`);
+			const updatedKits = [...existingKits, state.tempKitName]; // state.kits.concat(state.tempKitName);
+			log(`updatedKits: ${updatedKits}`);
+			return {
+				// ...state,
+				config: {
+					kits: updatedKits
+				}
+			};
+		});
+	}
 	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
 	/*
 	 ***********************************************
@@ -124,6 +135,7 @@ class SearchQuery extends React.Component {
 	 */
 	setNestedStateEnv(kv) {
 		let key = Object.keys(kv);
+		//TODO: Expand this to allow receiving an array of data
 		this.setState(({ env }) => ({
 			env: {
 				...env,
@@ -180,7 +192,10 @@ class SearchQuery extends React.Component {
 				<TextInput
 					value={this.state.config.quantity}
 					onChange={this.handleConfigKitQuantity}
-					onSubmit={() => this.updatePhase("configKitName")}
+					onSubmit={tempKitName => {
+						this.setNestedStateConfig({ tempKitName });
+						this.updatePhase("configKitName");
+					}}
 					placeholder="#"
 				/>
 			</Box>
@@ -297,12 +312,12 @@ class SearchQuery extends React.Component {
 		);
 	}
 	cConfigKitName() {
+		const { index } = this.state.config;
 		return (
 			<Box>
 				<Text>What's the name of your kit's config?</Text>
-				<Text>Quantity: {this.state.config.quantity}</Text>
 				<TextInput
-					value={this.state.config.kits[this.state.config.index]}
+					value={this.state.config.tempKitName}
 					onChange={this.handleConfigKitName}
 				/>
 			</Box>
@@ -347,7 +362,9 @@ class SearchQuery extends React.Component {
 			default:
 				return (
 					<Box>
-						<Text>Nothing found in renderEnv()</Text>
+						<Text>
+							Nothing found in <Color blue>renderEnv()</Color>
+						</Text>
 					</Box>
 				);
 		}
