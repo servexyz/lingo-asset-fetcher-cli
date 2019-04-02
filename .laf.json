@@ -1,7 +1,5 @@
-{
-  "kits": [
-    {
-      "name": "",
+SPACE_ID=''
+API_TOKEN=''  "name": "",
       "sections": [
         {
           "name": ""
