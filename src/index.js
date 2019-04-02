@@ -30,6 +30,9 @@ import config from "./index.config";
   3. Name of kit: Foobar
 */
 
+//TODO: Inline introQuestion text.
+// * Ended up not using it for original purpose.
+
 class SearchQuery extends React.Component {
 	constructor() {
 		super();
@@ -56,6 +59,11 @@ class SearchQuery extends React.Component {
 		this.handleEnvApiToken = this.handleEnvApiToken.bind(this);
 		this.handleEnvSpaceId = this.handleEnvSpaceId.bind(this);
 		this.handleConfigKitQuantity = this.handleConfigKitQuantity.bind(this);
+		this.handleConfigKitName = this.handleConfigKitName.bind(this);
+		// * Render
+		this.renderIntro = this.renderIntro.bind(this);
+		this.renderEnv = this.renderEnv.bind(this);
+		this.renderConfig = this.renderConfig.bind(this);
 	}
 	updatePhase(phase) {
 		this.setState({ phase });
@@ -63,6 +71,10 @@ class SearchQuery extends React.Component {
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
+	}
+	handleConfigKitName(name) {
+		let idx = this.state.config.kits.length;
+		this.setNestedStateConfig({ idx });
 	}
 	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
 	setNestedStateEnv(kv) {
@@ -99,10 +111,7 @@ class SearchQuery extends React.Component {
 	handleConfigKitQuantity(quantity) {
 		this.setNestedStateConfig({ quantity });
 	}
-	render() {
-		//TODO: Consider breaking env and config conditions into functions
-		//TODO: Consider switching (ha) to a switch instead of flat if tree
-		let component;
+	renderIntro() {
 		if (this.state.phase == "") {
 			const wydItems = [
 				{
@@ -114,14 +123,17 @@ class SearchQuery extends React.Component {
 					value: "configKitQuantity"
 				}
 			];
-			component = (
+			return (
 				<Box>
 					<Text>{this.state.introQuestion}</Text>
 					<SelectInput items={wydItems} onSelect={this.handleIntro} />
 				</Box>
 			);
-		} else if (this.state.phase == "envSpaceId") {
-			component = (
+		}
+	}
+	renderEnv() {
+		if (this.state.phase == "envSpaceId") {
+			return (
 				<Box>
 					<Text>What's your Lingo Space ID?</Text>&nbsp;
 					<TextInput
@@ -133,7 +145,7 @@ class SearchQuery extends React.Component {
 				</Box>
 			);
 		} else if (this.state.phase == "envApiToken") {
-			component = (
+			return (
 				<Box>
 					<Text>What's your Lingo API Token?</Text>&nbsp;
 					<TextInput
@@ -145,64 +157,51 @@ class SearchQuery extends React.Component {
 				</Box>
 			);
 		} else if (this.state.phase == "envOutputMethod") {
-			let envOutputItems = [
-				{
-					label: "Write to ./.env",
-					value: "dotEnv"
-				},
-				{
-					label: "Write to clipboard",
-					value: "clipboard"
-				}
-			];
-			component = (
-				<Box>
-					<Text>{`Where would you like to output this data?\n`}</Text>
-					<SelectInput
-						items={envOutputItems}
-						onSelect={({ value } = outputLoc) => {
-							this.handleEnvOutput(value);
-							this.updatePhase("envDone");
-						}}
-					/>
-				</Box>
-			);
-		} else if (this.state.phase == "envDone") {
-			//TODO: Output to .env
+			return envOutput();
+		} else if (
+			this.state.phase == "envDone" &&
+			this.state.env.outputLoc == "dotEnv"
+		) {
 			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
 				this.state.env.apiToken
 			}'`;
-			if (this.state.env.outputLoc == "dotEnv") {
-				fs.outputFile(".env", data, err => {
-					if (err) {
-						throw err;
-					} else {
-						//TODO: Oh, lol stop updating state from within render silly goose
-						this.updatePhase("configKitQuantity");
-					}
-				});
-			} else if (this.state.env.outputLoc == "") {
-				try {
-					clipboardy.writeSync(data);
-					this.updatePhase("configKitQuantity");
-				} catch (err) {
-					log(`clipboardy() ${err}`);
-				}
-			}
-		} else if (this.state.phase == "configKitQuantity") {
-			component = (
+			fs.outputFile(".env", data, err => {
+				if (err) throw err;
+				this.updatePhase("");
+			});
+			// return (
+			// 	<Box>
+			// 		<Text>{JSON.stringify(data, null, 2)}</Text>
+			// 	</Box>
+			// );
+		} else if (
+			this.state.phase == "envDone" &&
+			this.state.env.outputLoc == "clipboard"
+		) {
+			let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
+				this.state.env.apiToken
+			}'`;
+			// log(`clipboard chosen`);
+			clipboardy.writeSync(data);
+			this.updatePhase("");
+		}
+	}
+	renderConfig() {
+		if (this.state.phase == "configKitQuantity") {
+			return (
 				<Box>
 					<Text>How many kits would you like to download assets from?</Text>
+					&nbsp;
 					<TextInput
 						value={this.state.config.quantity}
 						onChange={this.handleConfigKitQuantity}
-						onSubmit={this.updatePhase("")}
-						placeholder="name"
+						onSubmit={() => this.updatePhase("configKitName")}
+						placeholder="#"
 					/>
 				</Box>
 			);
 		} else if (this.state.phase == "configKitName") {
-			component = (
+			return (
 				<Box>
 					<Text>What's the name of your kit's config?</Text>
 					<Text>
@@ -211,27 +210,63 @@ class SearchQuery extends React.Component {
 					</Text>
 					<TextInput
 						value={this.state.config.kits}
-						// onSubmit={() => {
-						// 	this.state.config.quantity > this.state.config.kits.length
-						// 		? this.updatePhase("configKitName")
-						// 		: this.updatePhase("end");
-						// }}
-						// onSubmit={() => {
-						// 	this.state.config.quantity > this.state.config.kits.length
-						// 		? this.updatePhase("configKitName")
-						// 		: this.updatePhase("end");
-						// }}
+						onChange={this.handleConfigKitName}
+						onSubmit={() => {
+							this.state.config.quantity > this.state.config.kits.length
+								? () => this.updatePhase("configKitName")
+								: () => this.updatePhase("end");
+						}}
 					/>
 				</Box>
 			);
 		} else if (this.state.phase == "end") {
-			log(`this.state:${JSON.stringify(this.state, null, 2)}`);
+			return (
+				<Box>
+					<Text>{JSON.stringify(this.state, null, 2)}</Text>
+				</Box>
+			);
 		}
-
-		//TODO: Add check to see if gitignore exists. If not, offer to create one
-		return <Box>{component}</Box>;
+	}
+	render() {
+		if (this.state.phase == "") {
+			return this.renderIntro();
+		} else if (this.state.phase.includes("env")) {
+			return this.renderEnv();
+		} else if (this.state.phase.includes("config")) {
+			return this.renderConfig();
+		} else if ((this.state.phase.length == 3) & (this.state.phase == "end")) {
+			return (
+				<Box>
+					<Text>el fin</Text>
+				</Box>
+			);
+		}
 	}
 }
 
-log(`foo`);
 render(<SearchQuery />);
+
+function envOutput() {
+	let envOutputItems = [
+		{
+			label: "Write to ./.env",
+			value: "dotEnv"
+		},
+		{
+			label: "Write to clipboard",
+			value: "clipboard"
+		}
+	];
+	return (
+		<Box>
+			<Text>{`Where would you like to output this data?\n`}</Text>
+			<SelectInput
+				items={envOutputItems}
+				onSelect={({ value } = outputLoc) => {
+					this.handleEnvOutput(value);
+					this.updatePhase("envDone");
+				}}
+			/>
+		</Box>
+	);
+}
