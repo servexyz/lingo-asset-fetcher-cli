@@ -49,9 +49,7 @@ class SearchQuery extends React.Component {
 			},
 			config: {
 				quantity: "",
-				index: 0,
-				kits: [],
-				tempKitName: ""
+				kits: []
 			}
 		};
 
@@ -111,18 +109,14 @@ class SearchQuery extends React.Component {
 		this.setNestedStateConfig({ quantity });
 	}
 	handleConfigKitName(name) {
-		this.setState(state => {});
-	}
-	handleConfigKitName() {
+		//TODO: Fix "TypeError: Cannot read property 'length' of undefined"
 		this.setState(({ config }) => {
-			const existingKits = state.config.kits === null ? [] : [...state.kits];
-			log(`existingKits: ${existingKits}`);
-			const updatedKits = [...existingKits, state.tempKitName]; // state.kits.concat(state.tempKitName);
-			log(`updatedKits: ${updatedKits}`);
+			const existingKits = config.kits === null ? [] : [...config.kits];
+			const kits = [...existingKits, { name }]; // state.kits.concat(state.tempKitName);
 			return {
-				// ...state,
 				config: {
-					kits: updatedKits
+					...config,
+					kits
 				}
 			};
 		});
@@ -192,8 +186,7 @@ class SearchQuery extends React.Component {
 				<TextInput
 					value={this.state.config.quantity}
 					onChange={this.handleConfigKitQuantity}
-					onSubmit={tempKitName => {
-						this.setNestedStateConfig({ tempKitName });
+					onSubmit={() => {
 						this.updatePhase("configKitName");
 					}}
 					placeholder="#"
@@ -316,6 +309,7 @@ class SearchQuery extends React.Component {
 		return (
 			<Box>
 				<Text>What's the name of your kit's config?</Text>
+				&nbsp;
 				<TextInput
 					value={this.state.config.tempKitName}
 					onChange={this.handleConfigKitName}
