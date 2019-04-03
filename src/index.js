@@ -46,6 +46,7 @@ class SearchQuery extends React.Component {
 			},
 			config: {
 				quantity: "",
+				tempKitName: "",
 				kits: []
 			}
 		};
@@ -87,6 +88,7 @@ class SearchQuery extends React.Component {
 	 *	Handlers
 	 ************************************************
 	 */
+	//TODO: Refactor functions to have
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
@@ -105,16 +107,11 @@ class SearchQuery extends React.Component {
 	}
 	handleConfigKitName(name) {
 		//TODO: Fix "TypeError: Cannot read property 'length' of undefined"
-		this.setState(({ config }) => {
-			const existingKits = config.kits === null ? [] : [...config.kits];
-			const kits = [...existingKits, { name }]; // state.kits.concat(state.tempKitName);
-			return {
-				config: {
-					...config,
-					kits
-				}
-			};
-		});
+		this.setNestedStateConfig({ tempKitName: name });
+
+		// log(`config.quantity: ${config.quantity}`);
+		// this.setState(({ config }) => {
+		// 	// const existingKits = config.kits === null ? [] : [...config.kits];
 	}
 	//? since event object is not available, what's the best way to create a generic handler?
 	//? (ie. can't do e.target.name/value trick)
@@ -148,6 +145,33 @@ class SearchQuery extends React.Component {
 	 */
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
+	}
+
+	//TODO: Figure out the render order here... Think the issue is this needs to be added as handler.
+	// * Check for config.quantity on the submit
+
+	componentDidMount() {
+		// ? Is this poor form since resetting state here? Idk if this forces a subsequent re-render / adds to queue?
+		log(`willmount`);
+		const {
+			config: { tempKitName: name }
+		} = this.state;
+		log(`name: ${name}`);
+		if (name.length > 0) {
+			log(`inside`);
+			// ? Is this a legal assignment or do I need to replicate the config variable here?
+			const kits = [...config.kits, { name }]; // state.kits.concat(state.tempKitName);
+			log(`kits: ${kits}`);
+			this.setState(({ config }) => {
+				return {
+					config: {
+						...config,
+						kits,
+						tempKitName: ""
+					}
+				};
+			});
+		}
 	}
 	/*
 	 ***********************************************
@@ -300,7 +324,6 @@ class SearchQuery extends React.Component {
 		);
 	}
 	cConfigKitName() {
-		const { index } = this.state.config;
 		return (
 			<Box>
 				<Text>What's the name of your kit's config?</Text>
@@ -308,13 +331,17 @@ class SearchQuery extends React.Component {
 				<TextInput
 					value={this.state.config.tempKitName}
 					onChange={this.handleConfigKitName}
+					onSubmit={() => {
+						this.updatePhase("end");
+					}}
 				/>
 			</Box>
 		);
 	}
 	renderIntro() {
 		if (this.state.phase == "") {
-			return this.cIntro();
+			// return this.cIntro();
+			return this.cConfigKitQuantity(); //temporary testing
 		}
 		if (this.state.phase == "emptyBoilerplate") {
 			return this.cEmptyBoilerplate();
@@ -325,7 +352,7 @@ class SearchQuery extends React.Component {
 	renderEnv() {
 		const {
 			phase,
-			env: { outputLoc }
+			env: { outputLoc, spaceId, apiToken }
 		} = this.state;
 		switch (phase) {
 			case "envSpaceId":
@@ -335,9 +362,7 @@ class SearchQuery extends React.Component {
 			case "envOutputMethod":
 				return this.cEnvOutputMethod();
 			case "envDone":
-				let data = `SPACE_ID='${this.state.env.spaceId}'\nAPI_TOKEN='${
-					this.state.env.apiToken
-				}'`;
+				let data = `SPACE_ID='${spaceId}'\nAPI_TOKEN='${apiToken}'`;
 				if (outputLoc == "dotEnv") {
 					fs.outputFile(".env", data, err => {
 						if (err) throw err;
@@ -357,14 +382,15 @@ class SearchQuery extends React.Component {
 		}
 	}
 	renderConfig() {
-		if (this.state.phase == "configKitQuantity") {
+		const { phase } = this.state;
+		if (phase == "configKitQuantity") {
 			return this.cConfigKitQuantity();
-		} else if (this.state.phase == "configKitName") {
+		} else if (phase == "configKitName") {
 			return this.cConfigKitName();
 		}
 	}
 	render() {
-		const { phase } = this.state;
+		const { phase, config } = this.state;
 		if (phase.includes("Boilerplate") || phase == "") {
 			return this.renderIntro();
 		} else if (phase.includes("env")) {
@@ -374,7 +400,8 @@ class SearchQuery extends React.Component {
 		} else if (phase == "end") {
 			return (
 				<Box>
-					<Text>el fin</Text>
+					<Text>tempKitName: {config.tempKitName}</Text>
+					<Text>state: ${JSON.stringify(this.state, null, 2)}</Text>
 				</Box>
 			);
 		}
