@@ -31,9 +31,6 @@ import config from "./index.config";
 */
 
 //TODO: Add a check if laf.json already exists to prevent overwriting
-//TODO: Break up components into second file
-// * Ended up not using it for original purpose.
-
 class SearchQuery extends React.Component {
 	constructor() {
 		super();
@@ -81,7 +78,6 @@ class SearchQuery extends React.Component {
 	 *	Update Phase
 	 ************************************************
 	 */
-	//TODO: Replace all manual instances of setState({phase}) with updatePhase
 	updatePhase(phase) {
 		this.setState({ phase });
 	}
@@ -96,7 +92,6 @@ class SearchQuery extends React.Component {
 		this.setState({ phase });
 	}
 	handleEnvOutput(outputLoc) {
-		//TODO: Figure out workaround to the onHighlight failure
 		this.setNestedStateEnv({ outputLoc });
 	}
 	handleEnvApiToken(apiToken) {
@@ -121,7 +116,8 @@ class SearchQuery extends React.Component {
 			};
 		});
 	}
-	//TODO: since event object is not available, figure out how to create generic handler (ie. can't do e.target.name/value trick)
+	//? since event object is not available, what's the best way to create a generic handler?
+	//? (ie. can't do e.target.name/value trick)
 	/*
 	 ***********************************************
 	 *	setNestedState Factories
@@ -129,7 +125,6 @@ class SearchQuery extends React.Component {
 	 */
 	setNestedStateEnv(kv) {
 		let key = Object.keys(kv);
-		//TODO: Expand this to allow receiving an array of data
 		this.setState(({ env }) => ({
 			env: {
 				...env,
@@ -350,9 +345,7 @@ class SearchQuery extends React.Component {
 				} else if (outputLoc == "clipboard") {
 					clipboardy.writeSync(data);
 				}
-				//TODO: Nest the configKitQuantity call
 				return this.cConfigKitQuantity();
-				break;
 			default:
 				return (
 					<Box>
