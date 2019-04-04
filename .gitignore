@@ -1,5 +1,5 @@
 .DS_Store
-.env.laf
+.laf.json
 # Logs
 logs
 *.log

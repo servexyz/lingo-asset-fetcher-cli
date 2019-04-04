@@ -41,7 +41,7 @@
 		"react": "^16.8.5"
 	},
 	"scripts": {
-		"start": "npm run dev:meow:null",
+		"start": "npm run dev:meow:gen",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:builtModule",
 		"dev:meow:gen": "babel-node src/index.js gen",

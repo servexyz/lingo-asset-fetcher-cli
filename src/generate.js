@@ -234,6 +234,7 @@ export class SearchQuery extends React.Component {
 	cEmptyBoilerplate(rootDir = "./", kitNames = [""]) {
 		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
 		let config = this.uGenerateLAFBoilerplate(".laf.json", kitNames);
+		//TODO: Any reason I should not remove rootDir and replace it with cwd?
 		fs.outputFile(`${rootDir}/${env.name}`, env.value, err => {
 			if (err) return this.cError("cEmptyBoilerplate", err);
 		});
