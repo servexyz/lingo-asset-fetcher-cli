@@ -37,12 +37,15 @@
 		"ink-select-input": "^3.1.0",
 		"ink-text-input": "^3.1.0",
 		"lingo-asset-fetcher-lib": "^0.2.5",
+		"meow": "^5.0.0",
 		"react": "^16.8.5"
 	},
 	"scripts": {
-		"start": "npm run dev",
+		"start": "npm run dev:meow:null",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:builtModule",
+		"dev:meow:gen": "babel-node src/index.js gen",
+		"dev:meow:null": "babel-node src/index.js",
 		"dev:vanillaModule": "babel-node src/index.js",
 		"dev:liveReloadedModule": "nodemon --no-stdin --watch src/index.js --exec 'babel-node src/index.js'",
 		"dev:builtModule": "npm run build && node build/main.js",
