@@ -1,0 +1,32 @@
+SPACE_ID=''
+API_TOKEN=''  "name": "",
+      "sections": [
+        {
+          "name": ""
+        },
+        {
+          "name": "",
+          "headers": [
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "name": "",
+      "sections": [
+        {
+          "name": "",
+          "headers": [
+            "",
+            ""
+          ]
+        },
+        {
+          "name": ""
+        }
+      ]
+    }
+  ]
+}
