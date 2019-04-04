@@ -195,6 +195,13 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
+	cEnd() {
+		return (
+			<Box>
+				<Text>state: ${JSON.stringify(this.state, null, 2)}</Text>
+			</Box>
+		);
+	}
 	cConfigKitQuantity() {
 		return (
 			<Box>
@@ -218,6 +225,52 @@ class SearchQuery extends React.Component {
 				<Color red>Error: {err}</Color>
 			</Box>
 		);
+	}
+	uGenerateBoilerplate(configName, kitNames) {
+		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
+		let kits = kitNames.map(kit => {
+			return {
+				name: kit,
+				sections: [
+					{
+						name: "",
+						headers: [""]
+					}
+				]
+			};
+		});
+		log(`kits: ${JSON.stringify(kits, null, 2)}`);
+		// let config = {
+		// 	name: ".laf.json",
+		// 	value: {
+		// 		kits: [
+		// 			{
+		// 				name: "",
+		// 				sections: [
+		// 					{
+		// 						name: ""
+		// 					},
+		// 					{
+		// 						name: "",
+		// 						headers: ["", ""]
+		// 					}
+		// 				]
+		// 			},
+		// 			{
+		// 				name: "",
+		// 				sections: [
+		// 					{
+		// 						name: "",
+		// 						headers: ["", ""]
+		// 					},
+		// 					{
+		// 						name: ""
+		// 					}
+		// 				]
+		// 			}
+		// 		]
+		// 	}
+		// };
 	}
 	cEmptyBoilerplate(rootDir = "./") {
 		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
@@ -380,11 +433,16 @@ class SearchQuery extends React.Component {
 		}
 	}
 	renderConfig() {
-		const { phase } = this.state;
+		const { phase, config } = this.state;
 		if (phase == "configKitQuantity") {
 			return this.cConfigKitQuantity();
-		} else if (phase == "configKitName") {
+		} else if (
+			phase == "configKitName" &&
+			config.kits.length < config.quantity
+		) {
 			return this.cConfigKitName();
+		} else {
+			return this.cEnd();
 		}
 	}
 	render() {
@@ -396,12 +454,7 @@ class SearchQuery extends React.Component {
 		} else if (phase.includes("config")) {
 			return this.renderConfig();
 		} else if (phase == "end") {
-			return (
-				<Box>
-					<Text>tempKitName: {config.tempKitName}</Text>
-					<Text>state: ${JSON.stringify(this.state, null, 2)}</Text>
-				</Box>
-			);
+			return this.cEnd();
 		}
 	}
 }
