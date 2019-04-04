@@ -194,7 +194,7 @@ export class SearchQuery extends React.Component {
 			2
 		);
 		if (outputLoc == "dotLAF") {
-			fs.outputFile(".laf.json", config, err => {
+			fs.outputFile(`${process.cwd()}/.laf.json`, config, err => {
 				if (err) throw err;
 			});
 		} else if (outputLoc == "clipboardConfig") {
@@ -231,7 +231,8 @@ export class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
-	cEmptyBoilerplate(rootDir = "./", kitNames = [""]) {
+	cEmptyBoilerplate(kitNames = [""]) {
+		let rootDir = process.cwd();
 		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
 		let config = this.uGenerateLAFBoilerplate(".laf.json", kitNames);
 		//TODO: Any reason I should not remove rootDir and replace it with cwd?
@@ -352,8 +353,9 @@ export class SearchQuery extends React.Component {
 	//TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
 	uGenerateLAFBoilerplate(configName, kitNames) {
 		let kits = kitNames.map(kit => {
+			let name = kit.name;
 			return {
-				name: kit,
+				name,
 				sections: [
 					{
 						name: "",
