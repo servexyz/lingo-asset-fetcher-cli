@@ -1,6 +1,6 @@
 {
 	"name": "laf",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"main": "build/main.js",
 	"license": "MIT",
 	"repository": {
@@ -36,7 +36,7 @@
 		"ink": "^2.0.6",
 		"ink-select-input": "^3.1.0",
 		"ink-text-input": "^3.1.0",
-		"lingo-asset-fetcher-lib": "^0.2.5",
+		"lingo-asset-fetcher-lib": "^0.2.6",
 		"meow": "^5.0.0",
 		"react": "^16.8.5"
 	},
