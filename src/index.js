@@ -7,7 +7,7 @@ import clipboardy from "clipboardy";
 const log = console.log;
 
 import * as laf from "lingo-asset-fetcher-lib";
-import config from "./index.config";
+import indexConfig from "./index.config";
 
 // laf.init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
 
@@ -47,6 +47,7 @@ class SearchQuery extends React.Component {
 			config: {
 				quantity: "",
 				tempKitName: "",
+				index: 0,
 				kits: []
 			}
 		};
@@ -108,10 +109,6 @@ class SearchQuery extends React.Component {
 	handleConfigKitName(name) {
 		//TODO: Fix "TypeError: Cannot read property 'length' of undefined"
 		this.setNestedStateConfig({ tempKitName: name });
-
-		// log(`config.quantity: ${config.quantity}`);
-		// this.setState(({ config }) => {
-		// 	// const existingKits = config.kits === null ? [] : [...config.kits];
 	}
 	//? since event object is not available, what's the best way to create a generic handler?
 	//? (ie. can't do e.target.name/value trick)
@@ -150,17 +147,18 @@ class SearchQuery extends React.Component {
 	//TODO: Figure out the render order here... Think the issue is this needs to be added as handler.
 	// * Check for config.quantity on the submit
 
-	componentDidMount() {
+	handleConfigKitNameSubmit() {
 		// ? Is this poor form since resetting state here? Idk if this forces a subsequent re-render / adds to queue?
 		log(`willmount`);
 		const {
+			config,
 			config: { tempKitName: name }
 		} = this.state;
 		log(`name: ${name}`);
 		if (name.length > 0) {
-			log(`inside`);
+			log(`inside ${JSON.stringify(config, null, 2)}`);
 			// ? Is this a legal assignment or do I need to replicate the config variable here?
-			const kits = [...config.kits, { name }]; // state.kits.concat(state.tempKitName);
+			const kits = [...Array.from(config.kits), { name }]; // state.kits.concat(state.tempKitName);
 			log(`kits: ${kits}`);
 			this.setState(({ config }) => {
 				return {
@@ -332,7 +330,7 @@ class SearchQuery extends React.Component {
 					value={this.state.config.tempKitName}
 					onChange={this.handleConfigKitName}
 					onSubmit={() => {
-						this.updatePhase("end");
+						this.handleConfigKitNameSubmit();
 					}}
 				/>
 			</Box>
