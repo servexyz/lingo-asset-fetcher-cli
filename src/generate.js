@@ -31,7 +31,7 @@ import inkConfig from "./generate.config.sample";
 */
 
 //TODO: Add a check if laf.json already exists to prevent overwriting
-class SearchQuery extends React.Component {
+export class SearchQuery extends React.Component {
 	constructor() {
 		super();
 
@@ -458,4 +458,6 @@ class SearchQuery extends React.Component {
 	}
 }
 
-render(<SearchQuery />);
+export function initInk() {
+	render(<SearchQuery />);
+}
