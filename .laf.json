@@ -1,32 +1,46 @@
-SPACE_ID=''
-API_TOKEN=''  "name": "",
-      "sections": [
-        {
-          "name": ""
+{
+  "name": ".laf.json",
+  "value": {
+    "kits": [
+      {
+        "name": {
+          "name": "aiodjs"
         },
-        {
-          "name": "",
-          "headers": [
-            "",
-            ""
-          ]
-        }
-      ]
-    },
-    {
-      "name": "",
-      "sections": [
-        {
-          "name": "",
-          "headers": [
-            "",
-            ""
-          ]
+        "sections": [
+          {
+            "name": "",
+            "headers": [
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "name": {
+          "name": "efiojeef"
         },
-        {
-          "name": ""
-        }
-      ]
-    }
-  ]
+        "sections": [
+          {
+            "name": "",
+            "headers": [
+              ""
+            ]
+          }
+        ]
+      },
+      {
+        "name": {
+          "name": "jijjjj"
+        },
+        "sections": [
+          {
+            "name": "",
+            "headers": [
+              ""
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }

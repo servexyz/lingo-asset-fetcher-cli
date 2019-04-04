@@ -47,8 +47,8 @@ class SearchQuery extends React.Component {
 			config: {
 				quantity: "",
 				tempKitName: "",
-				index: 0,
-				kits: []
+				kits: [],
+				outputLoc: ""
 			}
 		};
 
@@ -57,7 +57,6 @@ class SearchQuery extends React.Component {
 		 *	Binding
 		 ************************************************
 		 */
-		//TODO: Cleanup binds. Don't actually need the render or components. Just added out of habit
 		// * SelectInput
 		this.handleIntro = this.handleIntro.bind(this);
 		this.handleEnvOutput = this.handleEnvOutput.bind(this);
@@ -66,14 +65,6 @@ class SearchQuery extends React.Component {
 		this.handleEnvSpaceId = this.handleEnvSpaceId.bind(this);
 		this.handleConfigKitQuantity = this.handleConfigKitQuantity.bind(this);
 		this.handleConfigKitName = this.handleConfigKitName.bind(this);
-		// * Render
-		this.renderEnv = this.renderEnv.bind(this);
-		this.renderConfig = this.renderConfig.bind(this);
-		this.renderIntro = this.renderIntro.bind(this);
-		// * Components
-		this.cIntro = this.cIntro.bind(this);
-		this.cEmptyBoilerplate = this.cEmptyBoilerplate.bind(this);
-		this.cError = this.cError.bind(this);
 	}
 	/*
 	 ***********************************************
@@ -89,13 +80,16 @@ class SearchQuery extends React.Component {
 	 *	Handlers
 	 ************************************************
 	 */
-	//TODO: Refactor functions to have
+
 	handleIntro({ value: phase } = selection) {
 		//? Param syntax look weird? See here: https://codeburst.io/renaming-destructured-variables-in-es6-807549754972
 		this.setState({ phase });
 	}
 	handleEnvOutput(outputLoc) {
 		this.setNestedStateEnv({ outputLoc });
+	}
+	handleConfigOutput(outputLoc) {
+		this.setNestedStateConfig({ outputLoc });
 	}
 	handleEnvApiToken(apiToken) {
 		this.setNestedStateEnv({ apiToken });
@@ -107,16 +101,35 @@ class SearchQuery extends React.Component {
 		this.setNestedStateConfig({ quantity });
 	}
 	handleConfigKitName(name) {
-		//TODO: Fix "TypeError: Cannot read property 'length' of undefined"
 		this.setNestedStateConfig({ tempKitName: name });
 	}
-	//? since event object is not available, what's the best way to create a generic handler?
-	//? (ie. can't do e.target.name/value trick)
+	//TODO: Fix the infinite loop for kit names
+	handleConfigKitNameSubmit() {
+		const {
+			config,
+			config: { tempKitName: name }
+		} = this.state;
+		if (name.length > 0) {
+			const kits = [...Array.from(config.kits), { name }];
+			this.setState(({ config }) => {
+				return {
+					config: {
+						...config,
+						kits,
+						tempKitName: ""
+					}
+				};
+			});
+		}
+	}
 	/*
-	 ***********************************************
-	 *	setNestedState Factories
-	 ************************************************
-	 */
+	***********************************************
+	*	setNestedState Factories
+	************************************************
+	? since event object is not available, what's the best way to create a generic handler?
+	? (ie. can't do e.target.name/value trick)
+	*/
+
 	setNestedStateEnv(kv) {
 		let key = Object.keys(kv);
 		this.setState(({ env }) => ({
@@ -140,37 +153,13 @@ class SearchQuery extends React.Component {
 	 *	Event Lifecycle
 	 ************************************************
 	 */
+	// componentDidUpdate() {
+	// 	log(`this.state: ${JSON.stringify(this.state, null, 2)}`);
+	// }
 	componentDidCatch(error, errorInfo) {
 		this.setState({ error, errorInfo });
 	}
 
-	//TODO: Figure out the render order here... Think the issue is this needs to be added as handler.
-	// * Check for config.quantity on the submit
-
-	handleConfigKitNameSubmit() {
-		// ? Is this poor form since resetting state here? Idk if this forces a subsequent re-render / adds to queue?
-		log(`willmount`);
-		const {
-			config,
-			config: { tempKitName: name }
-		} = this.state;
-		log(`name: ${name}`);
-		if (name.length > 0) {
-			log(`inside ${JSON.stringify(config, null, 2)}`);
-			// ? Is this a legal assignment or do I need to replicate the config variable here?
-			const kits = [...Array.from(config.kits), { name }]; // state.kits.concat(state.tempKitName);
-			log(`kits: ${kits}`);
-			this.setState(({ config }) => {
-				return {
-					config: {
-						...config,
-						kits,
-						tempKitName: ""
-					}
-				};
-			});
-		}
-	}
 	/*
 	 ***********************************************
 	 * Components
@@ -195,13 +184,33 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
+	//TODO: Refactor cEnd to "cConfigEnd"
 	cEnd() {
+		const {
+			spaceId,
+			apiToken,
+			config: { outputLoc, kits }
+		} = this.state;
+		//TODO: Abstract below into utility function for cEnd and cEnvDone's inline function
+		let config = JSON.stringify(
+			this.uGenerateLAFBoilerplate(".laf.json", Object.values(kits)),
+			null,
+			2
+		);
+		if (outputLoc == "dotLAF") {
+			fs.outputFile(".laf.json", config, err => {
+				if (err) throw err;
+			});
+		} else if (outputLoc == "clipboardConfig") {
+			clipboardy.writeSync(config);
+		}
 		return (
 			<Box>
 				<Text>state: ${JSON.stringify(this.state, null, 2)}</Text>
 			</Box>
 		);
 	}
+	//TODO: Validate config.quantity. Must be int
 	cConfigKitQuantity() {
 		return (
 			<Box>
@@ -226,86 +235,10 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
-	uGenerateBoilerplate(configName, kitNames) {
+	cEmptyBoilerplate(rootDir = "./", kitNames = [""]) {
 		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
-		let kits = kitNames.map(kit => {
-			return {
-				name: kit,
-				sections: [
-					{
-						name: "",
-						headers: [""]
-					}
-				]
-			};
-		});
-		log(`kits: ${JSON.stringify(kits, null, 2)}`);
-		// let config = {
-		// 	name: ".laf.json",
-		// 	value: {
-		// 		kits: [
-		// 			{
-		// 				name: "",
-		// 				sections: [
-		// 					{
-		// 						name: ""
-		// 					},
-		// 					{
-		// 						name: "",
-		// 						headers: ["", ""]
-		// 					}
-		// 				]
-		// 			},
-		// 			{
-		// 				name: "",
-		// 				sections: [
-		// 					{
-		// 						name: "",
-		// 						headers: ["", ""]
-		// 					},
-		// 					{
-		// 						name: ""
-		// 					}
-		// 				]
-		// 			}
-		// 		]
-		// 	}
-		// };
-	}
-	cEmptyBoilerplate(rootDir = "./") {
-		let env = { name: ".env", value: `SPACE_ID=''\nAPI_TOKEN=''` };
-		let config = {
-			name: ".laf.json",
-			value: {
-				kits: [
-					{
-						name: "",
-						sections: [
-							{
-								name: ""
-							},
-							{
-								name: "",
-								headers: ["", ""]
-							}
-						]
-					},
-					{
-						name: "",
-						sections: [
-							{
-								name: "",
-								headers: ["", ""]
-							},
-							{
-								name: ""
-							}
-						]
-					}
-				]
-			}
-		};
-		fs.outputFile(`${rootDir}/${config.name}`, env.value, err => {
+		let config = this.uGenerateLAFBoilerplate(".laf.json", kitNames);
+		fs.outputFile(`${rootDir}/${env.name}`, env.value, err => {
 			if (err) return this.cError("cEmptyBoilerplate", err);
 		});
 		fs.outputFile(
@@ -318,12 +251,13 @@ class SearchQuery extends React.Component {
 		return (
 			<Box>
 				<Text>
-					<Color blue>{config.name}</Color> and <Color blue>{env.name}</Color>{" "}
-					have been created
+					<Color blue>{config.name}</Color> & <Color blue>{env.name}</Color> has
+					been generated.
 				</Text>
 			</Box>
 		);
 	}
+	//TODO: Add check after config is generated to output to clipboard or file
 	cEnvSpaceId() {
 		return (
 			<Box>
@@ -350,6 +284,20 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
+	//TODO: Abstract handleEnvOutput method
+	cConfigOutputMethod() {
+		let configOutputItems = [
+			{
+				label: "Write to ./.laf.json",
+				value: "dotLAF"
+			},
+			{
+				label: "Write to clipboard",
+				value: "clipboardConfig"
+			}
+		];
+		return this.cOutputMethodSelector(configOutputItems, "config", "end");
+	}
 	cEnvOutputMethod() {
 		let envOutputItems = [
 			{
@@ -361,14 +309,23 @@ class SearchQuery extends React.Component {
 				value: "clipboard"
 			}
 		];
+		return this.cOutputMethodSelector(
+			envOutputItems,
+			"env",
+			"configKitQuantity"
+		);
+	}
+	cOutputMethodSelector(items, parent, nextPhase) {
 		return (
 			<Box>
 				<Text>{`Where would you like to output this data?\n`}</Text>
 				<SelectInput
-					items={envOutputItems}
+					items={items}
 					onSelect={({ value } = outputLoc) => {
-						this.handleEnvOutput(value);
-						this.updatePhase("envDone");
+						parent === "env"
+							? this.handleEnvOutput(value)
+							: this.handleConfigOutput(value);
+						this.updatePhase(nextPhase);
 					}}
 				/>
 			</Box>
@@ -389,10 +346,40 @@ class SearchQuery extends React.Component {
 			</Box>
 		);
 	}
+	/*
+	 ***********************************************
+	 * Utilities
+	 ************************************************
+	 */
+	//TODO: Create uGenerateEnvBoilerplate
+	//TODO: Update emptyBoilerplate & interactiveBoilerplate with new Env generator
+	uGenerateLAFBoilerplate(configName, kitNames) {
+		let kits = kitNames.map(kit => {
+			return {
+				name: kit,
+				sections: [
+					{
+						name: "",
+						headers: [""]
+					}
+				]
+			};
+		});
+		return {
+			name: configName,
+			value: {
+				kits
+			}
+		};
+	}
+	/*
+	 ***********************************************
+	 * Conditional Rendering (phase checkers)
+	 ************************************************
+	 */
 	renderIntro() {
 		if (this.state.phase == "") {
-			// return this.cIntro();
-			return this.cConfigKitQuantity(); //temporary testing
+			return this.cIntro();
 		}
 		if (this.state.phase == "emptyBoilerplate") {
 			return this.cEmptyBoilerplate();
@@ -434,19 +421,30 @@ class SearchQuery extends React.Component {
 	}
 	renderConfig() {
 		const { phase, config } = this.state;
-		if (phase == "configKitQuantity") {
-			return this.cConfigKitQuantity();
-		} else if (
-			phase == "configKitName" &&
-			config.kits.length < config.quantity
-		) {
-			return this.cConfigKitName();
-		} else {
-			return this.cEnd();
+		switch (phase) {
+			case "configKitQuantity":
+				return this.cConfigKitQuantity();
+			case "configKitName":
+				if (config.kits.length < config.quantity) {
+					return this.cConfigKitName();
+				} else {
+					return this.cConfigOutputMethod();
+				}
+			// case "configDone":
+			// 	return this.cConfigOutputMethod();
+			default:
+				return (
+					<Box>
+						<Text>
+							Nothing found in <Color blue>renderConfig()</Color>
+						</Text>
+					</Box>
+				);
 		}
 	}
+	//TODO: Remove unnecessary this statements
 	render() {
-		const { phase, config } = this.state;
+		const { phase } = this.state;
 		if (phase.includes("Boilerplate") || phase == "") {
 			return this.renderIntro();
 		} else if (phase.includes("env")) {
