@@ -6,11 +6,6 @@ import fs from "fs-extra";
 import clipboardy from "clipboardy";
 const log = console.log;
 
-import * as laf from "lingo-asset-fetcher-lib";
-import inkConfig from "./generate.config.sample";
-
-// laf.init("Test Me", config.testMe.targetOne, "./downloads/testMeOne", "PNG");
-
 // Library: Use case
 //--------------------------------------
 // INK: Config generation
