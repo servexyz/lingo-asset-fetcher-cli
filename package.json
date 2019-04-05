@@ -30,15 +30,10 @@
 		"webpack-node-externals": "^1.7.2"
 	},
 	"dependencies": {
-		"clipboardy": "^1.2.3",
 		"dotenv": "^6.1.0",
 		"fs-extra": "^7.0.1",
-		"ink": "^2.0.6",
-		"ink-select-input": "^3.1.0",
-		"ink-text-input": "^3.1.0",
 		"lingo-asset-fetcher-lib": "^0.2.6",
-		"meow": "^5.0.0",
-		"react": "^16.8.5"
+		"meow": "^5.0.0"
 	},
 	"scripts": {
 		"start": "npm run dev:meow:node",
