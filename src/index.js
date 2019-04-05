@@ -1,7 +1,7 @@
-// #!/usr/bin/env node
+#!/usr/bin/env node
 const log = console.log;
-import meow from "meow";
-import { initInk } from "./generate";
+const meow = require("meow");
+const { initInk } = require("./generate");
 // import * as laf from "lingo-asset-fetcher-lib";
 // import inkConfig from "./generate.config.sample";
 
