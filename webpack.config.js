@@ -9,8 +9,9 @@ module.exports = {
 	entry: ["@babel/polyfill", path.resolve(__dirname, "src/index.js")],
 	output: {
 		path: path.resolve(__dirname, "build"),
+		libraryTarget: "commonjs",
 		filename: "main.js",
-		libraryTarget: "commonjs"
+		sourceMapFilename: "main.js.map"
 	},
 	target: "node",
 	externals: [NodeExternals()],
@@ -22,7 +23,8 @@ module.exports = {
 				use: {
 					loader: "babel-loader",
 					options: {
-						babelrc: true
+						babelrc: true,
+						presets: ["@babel/preset-env"]
 					}
 				}
 			},
