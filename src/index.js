@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 const log = console.log;
 import meow from "meow";
 import { initInk } from "./generate";
