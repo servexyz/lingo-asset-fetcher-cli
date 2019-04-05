@@ -1,8 +1,9 @@
+#!/usr/bin/env node
 const log = console.log;
 import meow from "meow";
 import { initInk } from "./generate";
-import * as laf from "lingo-asset-fetcher-lib";
-import inkConfig from "./generate.config.sample";
+// import * as laf from "lingo-asset-fetcher-lib";
+// import inkConfig from "./generate.config.sample";
 
 const menu = `
   Usage
@@ -41,11 +42,11 @@ function init(input = "", flags) {
 	} else {
 		//TODO: Set .env
 		log(`inside`);
-		laf.init(
-			"Test Me",
-			inkConfig.testMe.targetOne,
-			"./downloads/testMeOne",
-			"PNG"
-		);
+		// laf.init(
+		// 	"Test Me",
+		// 	inkConfig.testMe.targetOne,
+		// 	"./downloads/testMeOne",
+		// 	"PNG"
+		// );
 	}
 }
