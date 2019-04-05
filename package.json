@@ -41,11 +41,12 @@
 		"react": "^16.8.5"
 	},
 	"scripts": {
-		"start": "npm run dev:meow:gen",
+		"start": "npm run dev:meow:node",
 		"clean": "rm -Rf ./build",
 		"dev": "npm run dev:builtModule",
 		"dev:meow:gen": "babel-node src/index.js gen",
 		"dev:meow:null": "babel-node src/index.js",
+		"dev:meow:node": "./build/main.js gen",
 		"dev:vanillaModule": "babel-node src/index.js",
 		"dev:liveReloadedModule": "nodemon --no-stdin --watch src/index.js --exec 'babel-node src/index.js'",
 		"dev:builtModule": "npm run build && node build/main.js",
