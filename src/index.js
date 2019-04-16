@@ -24,8 +24,6 @@ const menu = `
    gen (eg. laf gen) -> Generate required config boilerplate   
   `;
 
-//TODO: Fix @babel/polyfill being loaded twice
-//TODO: Add soft/hard flags
 // ? Pending diff implementation in LAF lib
 
 // const optionTree = {
@@ -88,6 +86,8 @@ function lafParser(config, outputDirectory = "./downloads", fileCut = "PNG") {
 //TODO: Create --dev flag to prevent overwriting .laf.json & .env
 //TODO: Create --out flag to dictate downloads directory
 //TODO: Create --cut flag to specify file type
+//TODO: Add --soft flag (triage, move to GH issues)
+//TODO: Add --hard flag (triage, move to GH issues)
 
 /*
 ----------------------------------------------
