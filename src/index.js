@@ -1,9 +1,19 @@
 #!/usr/bin/env node
 const log = console.log;
 const meow = require("meow");
-const { initInk } = require("./generate");
-// import * as laf from "lingo-asset-fetcher-lib";
+const laf = require("laf-lib");
 // import inkConfig from "./generate.config.sample";
+
+/*
+ ****************************************
+ * CLI Must Ask
+ ****************************************
+ * Kit name
+ * LAF Object
+ * Download dir
+ * File format
+ ****************************************
+ */
 
 const menu = `
   Usage
@@ -13,6 +23,7 @@ const menu = `
    gen (eg. laf gen) -> Generate required config boilerplate   
   `;
 
+//TODO: Fix @babel/polyfill being loaded twice
 //TODO: Add soft/hard flags
 // ? Pending diff implementation in LAF lib
 
@@ -29,35 +40,32 @@ const menu = `
 // 	}
 // };
 // const cli = meow(menu, optionTree);
-const cli = meow(menu);
 
-init(cli.input, cli.flags);
+const { input, flags } = meow(menu);
 
-function init(input = "", flags) {
-	if (typeof input[0] == "string") {
-		var inp = input[0].toLowerCase();
-		if (inp == "gen" || inp == "generate") {
-			initInk();
-		}
-	} else {
-		//TODO: Set .env
-		log(`inside`);
-		// laf.init(
-		// 	"Test Me",
-		// 	inkConfig.testMe.targetOne,
-		// 	"./downloads/testMeOne",
-		// 	"PNG"
-		// );
-	}
-}
+log(`cli.input: ${input}`);
+log(`cli.flags: ${JSON.stringify(flags, null, 2)}`);
 
-/*
- ****************************************
- * CLI Must Ask
- ****************************************
- * Kit name
- * LAF Object
- * Download dir
- * File format
- ****************************************
- */
+(function initCli(input = "", flags) {
+  log(`inside initCli`);
+  if (typeof input[0] == "string") {
+    var inp = input[0].toLowerCase();
+    if (inp == "gen" || inp == "generate") {
+      log(`inside gen`);
+      laf.initInk();
+    } else if (inp == "f" || inp == "fetch") {
+      log(`inside fetch`);
+      laf.init(
+        "Test Me",
+        inkConfig.testMe.targetOne,
+        "./downloads/testMeOne",
+        "PNG"
+      );
+    }
+  } else {
+    //TODO: Set .env
+    log(`Please pass a string`);
+  }
+})(input, flags);
+
+//TODO: Create laf.json parser
