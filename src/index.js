@@ -2,6 +2,7 @@
 const log = console.log;
 const meow = require("meow");
 const laf = require("laf-lib");
+const { cliConfig, libConfig } = require("./generate.config.sample");
 // import inkConfig from "./generate.config.sample";
 
 /*
@@ -66,6 +67,55 @@ log(`cli.flags: ${JSON.stringify(flags, null, 2)}`);
     //TODO: Set .env
     log(`Please pass a string`);
   }
-})(input, flags);
+});
+// })(input, flags);
 
 //TODO: Create laf.json parser
+/**
+ *
+ * @param {object} config
+ */
+
+//TODO: Finished lafParser
+log(
+  `parsed config: ${JSON.stringify(
+    (function lafParser(config) {
+      const { name: fileName, value } = config;
+      // let x = Object.values(value.kits).map(kit => {
+      //   const { name, sections } = kit;
+      //   return new Promise((reject, resolve) => {
+      //     try {
+      //       resolve(laf.init(name, { sections }, "./downloads/cs/one", "png"));
+      //     } catch (err) {
+      //       reject(err);
+      //     }
+      // 	});
+      // });
+      for (const v of Object.values(value.kits)) {
+        // log(`v: ${JSON.stringify(v, null, 2)}`);
+        const { name, sections } = v;
+        log(`name: ${name}\n sections: ${JSON.stringify(sections, null, 2)}`);
+        laf.init(name, { sections });
+      }
+      log(`fileName: ${fileName}`);
+      return Object.assign({}, { fileName });
+    })(cliConfig),
+    null,
+    2
+  )}`
+);
+
+//TODO: Create --dev flag to prevent overwriting .laf.json & .env
+
+/*
+----------------------------------------------
+Goal:
+----------------------------------------------
+init(
+	"Capswan - Mobile App - Style Guide",
+	config.capswan.targetOne,
+	"./downloads/capswan/One",
+	"PNG"
+);
+----------------------------------------------
+*/
