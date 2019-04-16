@@ -2,8 +2,8 @@
 const log = console.log;
 const meow = require("meow");
 const laf = require("laf-lib");
-const { cliConfig, libConfig } = require("./generate.config.sample");
-// import inkConfig from "./generate.config.sample";
+const fs = require("fs-extra");
+// const { cliConfig, libConfig } = require("./generate.config.sample");
 
 /*
  ****************************************
@@ -20,12 +20,29 @@ const menu = `
   Usage
   $ laf <input>
 
-  Options
-   gen (eg. laf gen) -> Generate required config boilerplate   
+  Input Options
+  * gen (eg. laf gen) -> Generate required config boilerplate   
+  * fetch (eg. laf fetch) -> Download everything specified in your config file (.laf.json)
+
+  Flag Options
+  * --out, -o (eg. laf --out "./my/directory") -> Download everything to specified directory
+  * --cut, -c (eg. laf --cut "PNG") -> Download all PNGs (ie. the "file cut") from your kit
   `;
 
 // ? Pending diff implementation in LAF lib
 
+const optionTree = {
+  flags: {
+    out: {
+      type: "string",
+      alias: "o"
+    },
+    cut: {
+      type: "string",
+      alias: "c"
+    }
+  }
+};
 // const optionTree = {
 // 	flags: {
 // 		soft: {
@@ -42,8 +59,9 @@ const menu = `
 
 const { input, flags } = meow(menu);
 
-// log(`cli.input: ${input}`);
-// log(`cli.flags: ${JSON.stringify(flags, null, 2)}`);
+log(`cli.input: ${input}`);
+log(`cli.flags: ${JSON.stringify(flags, null, 2)}`);
+log(`flags.out: ${flags.out}`);
 
 function initCli(input = "", flags) {
   log(`inside initCli`);
@@ -54,18 +72,19 @@ function initCli(input = "", flags) {
       laf.initInk();
     } else if (inp == "f" || inp == "fetch") {
       log(`inside fetch`);
-      laf.init(
-        "Test Me",
-        inkConfig.testMe.targetOne,
-        "./downloads/testMeOne",
-        "PNG"
-      );
+      //TODO: Confirm this works when calling from pkg
+      let dir = `${process.cwd()}/.laf.json`;
+      log(`dir: ${dir}`);
+      let config = fs.readJsonSync(dir);
+      // log(`config: ${JSON.stringify(config, null, 2)}`);
+      // log(`config: ${config}`);
+      lafParser(config, flags.out, flags.cut);
     }
   } else {
     log(`Please pass a string`);
   }
 }
-// })(input, flags);
+initCli(input, flags);
 
 /**
  *

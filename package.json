@@ -36,12 +36,14 @@
     "meow": "^5.0.0"
   },
   "scripts": {
-    "start": "npm run dev",
+    "start": "npm run dev:meow:fetch:cut",
     "clean": "rm -Rf ./build",
     "dev": "npm run dev:vanillaModule",
     "dev:meow": "npm run dev:meow:gen",
     "dev:meow:gen": "./src/index.js gen",
-    "dev:meow:fetch": "./src/index.js fetch",
+    "dev:meow:fetch:all": "./src/index.js fetch --out './download/cs' --cut 'PNG'",
+    "dev:meow:fetch:out": "./src/index.js fetch --out './cs/download'",
+    "dev:meow:fetch:cut": "./src/index.js fetch --cut 'PNG'",
     "dev:vanillaModule": "babel-node src/index.js",
     "dev:liveReloadedModule": "nodemon --no-stdin --watch src/index.js --exec 'babel-node src/index.js'",
     "dev:builtModule": "npm run build && node build/main.js",
