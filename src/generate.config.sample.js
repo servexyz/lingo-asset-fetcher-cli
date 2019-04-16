@@ -83,8 +83,7 @@ const lafCliCraftedConfig = {
             name: "Illustrations"
           },
           {
-            name: "Icons",
-            headers: ["Icons", "Components"]
+            name: "Icons"
           }
         ]
       },
@@ -102,3 +101,5 @@ const lafCliCraftedConfig = {
 };
 
 export { lafLibTesterConfig as libConfig, lafCliCraftedConfig as cliConfig };
+
+// headers: ["Icons", "Components"]
