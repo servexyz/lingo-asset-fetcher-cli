@@ -9,17 +9,17 @@ const menu = `
   $ laf <input>
 
   Input Options (only choose one)
-  * gen, generate -> Generate required config boilerplate   
+  1. gen, generate -> Generate required config boilerplate   
   $ laf gen
 
-  * f, fetch -> Download everything specified in your config file (.laf.json)
+  2. f, fetch -> Download everything specified in your config file (.laf.json)
   $ laf fetch
 
   Flags (can be used together)
-  * --out, -o -> Download everything to specified directory
+  1. --out, -o -> Download everything to specified directory
   $ laf --out "./my/directory"
 
-  * --cut, -c -> Download all PNGs (ie. the "file cut") from your kit
+  2. --cut, -c -> Download all PNGs (ie. the "file cut") from your kit
   $ laf --cut "PNG"
   `;
 
