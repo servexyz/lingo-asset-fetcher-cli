@@ -2,8 +2,6 @@
 
 > Automate asset retrieval from lingoapp.com
 
-## NOT READY FOR USE
-
 ## Getting Started
 
 ```

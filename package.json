@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/servexyz/lingo-asset-fetcher-cli"
   },
+  "bin": {
+    "laf": "src/index.js"
+  },
   "devDependencies": {
     "@ava/babel-preset-stage-4": "^2.0.0",
     "@babel/core": "7.4.3",
