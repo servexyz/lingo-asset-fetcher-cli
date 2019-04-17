@@ -3,10 +3,12 @@ downloads
 docs/node-starter-scripts.gif
 docs/NPM.md
 webpack.config.js
-src
+src/generate.config.sample.js
 tests
+.laf.json
 .babelrc
 .env
+.env.sample
 .gitignore
 .gitmodules
 .prettierignore
