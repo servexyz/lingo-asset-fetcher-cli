@@ -1,6 +1,6 @@
 {
   "name": "laf",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "main": "build/main.js",
   "license": "MIT",
   "repository": {
