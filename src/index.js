@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 const log = console.log;
 const meow = require("meow");
 const laf = require("laf-lib");
