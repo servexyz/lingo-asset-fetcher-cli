@@ -2,12 +2,19 @@
 
 > Automate asset retrieval from lingoapp.com
 
-## Getting Started
+## Install
 
 ```
-npm install
-npm start
+npm install laf -g
 ```
+
+## Usage
+
+| Input Medium |     |
+| :----------- | :-- |
+
+
+| CLI
 
 All configuration is handled
 

@@ -69,7 +69,9 @@ function initCli(input = "", flags) {
       lafParser(config, flags.out, flags.cut);
     }
   } else {
-    log(`Please pass a string`);
+    log(
+      `Please pass an input string (gen, fetch) like so (eg. laf gen, laf fetch)`
+    );
   }
 }
 initCli(input, flags);
