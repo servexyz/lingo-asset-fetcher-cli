@@ -37,7 +37,7 @@ const flagTree = {
 };
 
 //TODO: Add soft & hard flags (pending diff implementation in LAF lib)
-
+//TODO: Brainstorm best way to handle API rate limit (since it's so low, they're likely to hit)
 const { input, flags } = meow(menu, flagTree);
 
 /**
