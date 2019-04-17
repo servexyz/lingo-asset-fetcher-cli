@@ -74,12 +74,9 @@ function initCli(input = "", flags) {
 }
 initCli(input, flags);
 
-//TODO: Update menu with new flags
-//TODO: Create --dev flag to prevent overwriting .laf.json & .env
-//TODO: Create --out flag to dictate downloads directory
-//TODO: Create --cut flag to specify file type
 //TODO: Add --soft flag (triage, move to GH issues)
 //TODO: Add --hard flag (triage, move to GH issues)
+//TODO: Consider adding --dev flag to prevent overwriting .laf.json & .env when using generate
 
 /*
 ----------------------------------------------
