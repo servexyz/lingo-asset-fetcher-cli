@@ -12,17 +12,20 @@ npm install laf -g
 
 #### Generate Config File
 
-> Config file is required. Using generator to create it is optional
+Config file is required.
+Using generator to create the config file is optional.
 
-1. Generate configuration file
-   \$ `laf gen`
+###### 1. Generate configuration file
 
-> Video Tutorial pt 1: [LAF - Gen (1/2)](https://youtu.be/J3UH4K_Nu0g)
+> Video Tutorial (1/2): [LAF - Gen](https://youtu.be/J3UH4K_Nu0g)
 
-2. Fetch files
-   \$ `laf fetch`
+\$ `laf gen`
 
-> Video Tutorial pt 2: [LAF - Fetch (2/2)](https://youtu.be/AeN6RgTHCyQ)
+###### 2. Fetch files
+
+> Video Tutorial (2/2): [LAF - Fetch](https://youtu.be/AeN6RgTHCyQ)
+
+\$ `laf fetch`
 
 ## Related
 
