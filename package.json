@@ -1,7 +1,7 @@
 {
   "name": "laf",
-  "version": "0.2.8",
-  "main": "build/main.js",
+  "version": "0.2.9",
+  "main": "src/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",

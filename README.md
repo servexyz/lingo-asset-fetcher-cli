@@ -20,9 +20,13 @@ npm install laf -g
 2. Fetch files
    \$ `laf fetch`
 
-TODO: Add screenshots of output from gen & fetch
-TODO: Add info about gen & fetch flags
-TODO: Create screencast vid of full setup (using generator, editing generated file, using fetch to retrieve, showing total number of retrieved assets, modifying desired headers to fetch more, show total number of retrieved assets)
+**Doc Todos**
+
+- TODO: Add screenshots of output from gen & fetch
+
+- TODO: Add info about gen & fetch flags
+
+- TODO: Create screencast vid of full setup (using generator, editing generated file, using fetch to retrieve, showing total number of retrieved assets, modifying desired headers to fetch more, show total number of retrieved assets)
 
 ## How it works
 
