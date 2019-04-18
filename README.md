@@ -17,18 +17,14 @@ npm install laf -g
 1. Generate configuration file
    \$ `laf gen`
 
+> Video Tutorial pt 1: [LAF - Gen (1/2)](https://youtu.be/J3UH4K_Nu0g)
+
 2. Fetch files
    \$ `laf fetch`
 
-**Doc Todos**
+> Video Tutorial pt 2: [LAF - Fetch (2/2)](https://youtu.be/AeN6RgTHCyQ)
 
-- TODO: Add screenshots of output from gen & fetch
-
-- TODO: Add info about gen & fetch flags
-
-- TODO: Create screencast vid of full setup (using generator, editing generated file, using fetch to retrieve, showing total number of retrieved assets, modifying desired headers to fetch more, show total number of retrieved assets)
-
-## How it works
+## Related
 
 This CLI wraps `lingo-asset-fetcher-lib`
 
