@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
+require("@babel/polyfill");
+
 var log = console.log;
 
 var meow = require("meow");
