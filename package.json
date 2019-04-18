@@ -1,6 +1,6 @@
 {
   "name": "laf",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "main": "src/index.js",
   "license": "MIT",
   "repository": {
@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@ava/babel-preset-stage-4": "^2.0.0",
+    "@babel/cli": "^7.4.3",
     "@babel/core": "7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/polyfill": "^7.4.3",
@@ -55,7 +56,9 @@
     "test": "npm-run-all -s clean:build build test:liveReloadedAva",
     "test:ava": "ava",
     "test:liveReloadedAva": "ava --watch",
-    "build": "webpack --mode production --display minimal && chmod +x build/main.js"
+    "build": "npm run build:babel",
+    "build:webpack": "webpack --mode production --display minimal && chmod +x build/main.js",
+    "build:babel": "npm run clean && ./node_modules/@babel/cli/bin/babel.js src/index.js --out-dir build --ignore *.test.js"
   },
   "ava": {
     "files": [
