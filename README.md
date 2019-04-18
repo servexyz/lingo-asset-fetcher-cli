@@ -60,6 +60,12 @@ Using generator to create the config file is optional.
 
 \$ `laf fetch`
 
+---
+
+## Sketch + Lingo + LAF Workflow Comparisons
+
+![LAF_Workflow_Comparison.png](./docs/LAF_Workflow_Comparison.png)
+
 ## Related
 
 This CLI wraps `lingo-asset-fetcher-lib`
