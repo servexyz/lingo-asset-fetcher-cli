@@ -14,5 +14,3 @@ tests
 .travis.yml
 package-lock.json
 package.json
-
-# ignore src/index.js & build/main.js.map
