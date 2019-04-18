@@ -21,6 +21,39 @@ Using generator to create the config file is optional.
 
 \$ `laf gen`
 
+**Sample Config**
+
+```json
+{
+  "name": ".laf.json",
+  "value": {
+    "kits": [
+      {
+        "name": "Capswan - Mobile App - Style Guide",
+        "sections": [
+          {
+            "name": "Illustrations"
+          },
+          {
+            "name": "Icons",
+            "headers": ["Icons", "Components"]
+          }
+        ]
+      },
+      {
+        "name": "Test Me",
+        "sections": [
+          {
+            "name": "Illustrations",
+            "headers": ["Lined"]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ###### 2. Fetch files
 
 > Video Tutorial (2/2): [LAF - Fetch](https://youtu.be/AeN6RgTHCyQ)
