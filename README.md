@@ -2,7 +2,7 @@
 
 > Automate asset retrieval from lingoapp.com
 
-![LAF_Logo](./docs/images/logo/LAFF.svg)
+![LAF_Logo](./docs/images/logo/trans.png)
 
 ## Install
 
