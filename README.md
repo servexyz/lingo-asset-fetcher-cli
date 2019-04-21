@@ -64,7 +64,7 @@ Using generator to create the config file is optional.
 
 ---
 
-## Sketch + Lingo + LAF Workflow Comparisons
+## `Sketch` + `Lingo` + `LAF` - Workflow Comparisons
 
 ![LAF_Workflow_Comparison.png](./docs/images/LAF_Workflow_Comparison.png)
 
