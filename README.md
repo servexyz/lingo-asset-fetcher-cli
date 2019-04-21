@@ -1,4 +1,4 @@
-![LAF_logo](./docs/images/logo/LAFF.svg)
+![LAF_logo](./docs/images/logo/HQ.png)
 
 > Automate asset retrieval from lingoapp.com
 
