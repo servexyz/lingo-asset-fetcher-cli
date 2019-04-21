@@ -1,8 +1,6 @@
-# LAF
+![LAF_logo](./docs/images/logo/LAFF.svg)
 
 > Automate asset retrieval from lingoapp.com
-
-![LAF_Logo](./docs/images/logo/trans.png?style=centerme)
 
 ## Install
 
