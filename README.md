@@ -1,6 +1,8 @@
 ![LAF_logo](./docs/images/logo/HQ.png)
 
-> Automate asset retrieval from lingoapp.com
+---
+
+Automate asset retrieval from lingoapp.com
 
 ## Install
 
