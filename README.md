@@ -1,6 +1,8 @@
-# Lingo Asset Fetcher CLI
+# LAF
 
 > Automate asset retrieval from lingoapp.com
+
+![LAF_Logo](./docs/LAF_logo.png)
 
 ## Install
 
