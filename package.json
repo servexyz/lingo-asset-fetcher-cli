@@ -1,12 +1,20 @@
 {
   "name": "laf",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "main": "src/index.js",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/servexyz/lingo-asset-fetcher-cli"
   },
+  "tags": [
+    "laf",
+    "lingo",
+    "lingoapp",
+    "sketchapp",
+    "assets",
+    "fetch"
+  ],
   "bin": {
     "laf": "src/index.js"
   },
