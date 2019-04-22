@@ -1,6 +1,6 @@
 {
   "name": "laf",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "main": "src/index.js",
   "license": "MIT",
   "repository": {
