@@ -10,6 +10,8 @@ Automate asset retrieval from lingoapp.com
 npm install laf -g
 ```
 
+---
+
 ## Usage
 
 In order to use LAF you will need two files in your current working directory:
@@ -27,18 +29,18 @@ SPACE_ID=''
 API_TOKEN=''
 ```
 
-#### Generate Config File
+---
+
+### 1. Generate Config File
+
+> Video Tutorial (1/2): [laf gen](https://youtu.be/J3UH4K_Nu0g)
 
 Config file is required.
 Using generator to create the config file is optional.
 
-###### 1. Generate configuration file
-
-> Video Tutorial (1/2): [LAF - Gen](https://youtu.be/J3UH4K_Nu0g)
-
 \$ `laf gen`
 
-**Sample Config**
+#### Sample Config
 
 ```json
 {
@@ -71,7 +73,7 @@ Using generator to create the config file is optional.
 }
 ```
 
-**Output at this point**
+#### Output at this point
 
 - `.laf.json` with semi-filled config
 
@@ -79,11 +81,15 @@ Using generator to create the config file is optional.
 
 - `.env` with empty SPACE_ID & API_TOKEN keys
 
-###### 2. Fetch files
+---
 
-> Video Tutorial (2/2): [LAF - Fetch](https://youtu.be/AeN6RgTHCyQ)
+### 2. Fetch files
+
+> Video Tutorial (2/2): [laf fetch](https://youtu.be/AeN6RgTHCyQ)
 
 \$ `laf fetch`
+
+#### CLI Flags
 
 > You can call `laf fetch` without specifying flags. Flag defaults are listed below.
 
@@ -92,14 +98,16 @@ Using generator to create the config file is optional.
 | --out | -o    | Download directory | "./downloads" |
 | --cut | -c    | File type          | "PNG"         |
 
-**Examples**
+##### Examples
 
 - \$ `laf fetch --out "./downloads" --cut "JPG"`
 - \$ `laf fetch --out "./assets" --cut "PNG"`
 
-**Output at this point**
+#### Output at this point
 
 All of your files downloaded to the output directory you've specified
+
+---
 
 ---
 
@@ -113,3 +121,8 @@ This CLI wraps `lingo-asset-fetcher-lib`
 
 - `@github`: [lingo-asset-fetcher-lib](https://github.com/servexyz/lingo-asset-fetcher-lib)
 - `@npm`: [laf-lib](https://www.npmjs.com/package/laf-lib)
+
+Video Tutorials
+
+1. [laf gen](https://youtu.be/J3UH4K_Nu0g)
+2. [laf fetch](https://youtu.be/AeN6RgTHCyQ)
