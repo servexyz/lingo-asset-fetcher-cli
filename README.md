@@ -101,7 +101,7 @@ Using generator to create the config file is optional.
 ##### Examples
 
 - \$ `laf fetch --out "./downloads" --cut "JPG"`
-- \$ `laf fetch --out "./assets" --cut "PNG"`
+- \$ `laf fetch --out "./assets/foo" --cut "PNG"`
 
 #### Output at this point
 
