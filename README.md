@@ -12,6 +12,20 @@ npm install laf -g
 
 ## Usage
 
+In order to use LAF you will need two things in your current working directory:
+
+1. `.laf.json`
+
+   > This is your config file.
+
+2. `.env` file in the current working
+   > This contains your SpaceID & API Token. Both are supplied by LingoApp.com
+
+```
+SPACE_ID=''
+API_TOKEN=''
+```
+
 #### Generate Config File
 
 Config file is required.
