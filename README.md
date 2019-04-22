@@ -73,4 +73,4 @@ Using generator to create the config file is optional.
 This CLI wraps `lingo-asset-fetcher-lib`
 
 - `@github`: [lingo-asset-fetcher-lib](https://github.com/servexyz/lingo-asset-fetcher-lib)
-- `@npm`: [lingo-asset-fetcher-lib](https://www.npmjs.com/package/laf-lib)
+- `@npm`: [laf-lib](https://www.npmjs.com/package/laf-lib)

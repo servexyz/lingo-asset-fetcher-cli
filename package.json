@@ -13,7 +13,8 @@
     "lingoapp",
     "sketchapp",
     "assets",
-    "fetch"
+    "fetch",
+    "cli"
   ],
   "bin": {
     "laf": "src/index.js"
