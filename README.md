@@ -12,14 +12,15 @@ npm install laf -g
 
 ## Usage
 
-In order to use LAF you will need two things in your current working directory:
+In order to use LAF you will need two files in your current working directory:
 
 1. `.laf.json`
 
    > This is your config file.
 
-2. `.env` file in the current working
-   > This contains your SpaceID & API Token. Both are supplied by LingoApp.com
+2. `.env`
+
+   > You might already have this file. If that's the case, you just need to add your SpaceID & API Token. Both are supplied by LingoApp.com.
 
 ```
 SPACE_ID=''
@@ -70,11 +71,35 @@ Using generator to create the config file is optional.
 }
 ```
 
+**Output at this point**
+
+- `.laf.json` with semi-filled config
+
+  > The tutorial in "Fetch files" walks you through finalizing this config
+
+- `.env` with empty SPACE_ID & API_TOKEN keys
+
 ###### 2. Fetch files
 
 > Video Tutorial (2/2): [LAF - Fetch](https://youtu.be/AeN6RgTHCyQ)
 
 \$ `laf fetch`
+
+> You can call `laf fetch` without specifying flags. Flag defaults are listed below.
+
+| Flag  | Alias | Description        | Defaults      |
+| :---- | :---- | :----------------- | :------------ |
+| --out | -o    | Download directory | "./downloads" |
+| --cut | -c    | File type          | "PNG"         |
+
+**Examples**
+
+- \$ `laf fetch --out "./downloads" --cut "JPG"`
+- \$ `laf fetch --out "./assets" --cut "PNG"`
+
+**Output at this point**
+
+All of your files downloaded to the output directory you've specified
 
 ---
 
