@@ -115,14 +115,20 @@ All of your files downloaded to the output directory you've specified
 
 ![LAF_Workflow_Comparison.png](./docs/images/LAF_Workflow_Comparison.png)
 
-## Related
+### Related
 
 This CLI wraps `lingo-asset-fetcher-lib`
 
 - `@github`: [lingo-asset-fetcher-lib](https://github.com/servexyz/lingo-asset-fetcher-lib)
 - `@npm`: [laf-lib](https://www.npmjs.com/package/laf-lib)
 
-Video Tutorials
+### Video Tutorials
 
 1. [laf gen](https://youtu.be/J3UH4K_Nu0g)
 2. [laf fetch](https://youtu.be/AeN6RgTHCyQ)
+
+### Blog
+
+> Explores the thought process behind LAF + future plans:
+
+[Image download automation with Lingo & LAF](https://growbuildserve.com/laf/)
