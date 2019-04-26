@@ -40,7 +40,9 @@ Using generator to create the config file is optional.
 
 \$ `laf gen`
 
-#### Sample Config
+TODO: Add Sample Config - Generated
+
+#### Sample Config - _Completed_
 
 ```json
 {
@@ -92,6 +94,8 @@ Using generator to create the config file is optional.
 #### CLI Flags
 
 > You can call `laf fetch` without specifying flags. Flag defaults are listed below.
+>
+> Visit [here](http://developer.lingoapp.com/lingojs/#available-file-cuts) to read more about Lingo's available file cuts. This will show you what you conversion possibilities.
 
 | Flag  | Alias | Description        | Defaults      |
 | :---- | :---- | :----------------- | :------------ |
