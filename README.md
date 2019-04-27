@@ -40,9 +40,27 @@ Using generator to create the config file is optional.
 
 \$ `laf gen`
 
-TODO: Add Sample Config - Generated
+#### Sample Config
 
-#### Sample Config - _Completed_
+##### Generated (Partial)
+
+```json
+{
+  "kits": [
+    {
+      "name": "",
+      "sections": [
+        {
+          "name": "",
+          "headers": [""]
+        }
+      ]
+    }
+  ]
+}
+```
+
+##### Generated & Edited (Complete)
 
 ```json
 {
@@ -115,7 +133,20 @@ All of your files downloaded to the output directory you've specified
 
 ---
 
-## `Sketch` + `Lingo` + `LAF` - Workflow Comparisons
+### Appendix
+
+#### A. How file names are constructed
+
+Downloaded filenames are a concatenation of asset name & tag names. Consider the following image:
+
+![lingo_file_name_eg](./docs/images/lingo_file_name_eg.png)
+
+The highlighted "down arrow" would be named:
+`down_arrow_black.png` as you can see here:
+
+![lingo_file_name_eg](./docs/images/lingo_file_name_eg_output.png)
+
+#### B. `Sketch` + `Lingo` + `LAF` - Workflow Comparisons
 
 ![LAF_Workflow_Comparison.png](./docs/images/LAF_Workflow_Comparison.png)
 
