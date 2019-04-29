@@ -1,8 +1,9 @@
 {
   "name": "laf",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "src/index.js",
   "license": "MIT",
+  "description": "Automate asset retrieval from lingoapp.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/servexyz/lingo-asset-fetcher-cli"
