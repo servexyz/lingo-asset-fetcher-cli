@@ -47,7 +47,7 @@
     "@babel/polyfill": "^7.4.3",
     "dotenv": "^7.0.0",
     "fs-extra": "^7.0.1",
-    "laf-lib": "^0.3.11",
+    "laf-lib": "^0.3.12",
     "meow": "^5.0.0"
   },
   "scripts": {
