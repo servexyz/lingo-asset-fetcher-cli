@@ -44,6 +44,7 @@ const { input, flags } = meow(menu, flagTree);
  *
  * @param {object} config
  */
+//TODO: Promisify so this can be called in index.test.js
 function lafParser(config, outputDirectory = "./downloads", fileCut = "PNG") {
   const { name: fileName, value } = config;
   for (const v of Object.values(value.kits)) {
@@ -58,6 +59,8 @@ function lafParser(config, outputDirectory = "./downloads", fileCut = "PNG") {
  * @param {string} input
  * @param {object} flags
  */
+
+//TODO: Remove circular dependency on '.laf.json' name key in config. Unnecessary. Cascades to laf-lib project
 function initCli(input = "", flags) {
   if (typeof input[0] == "string") {
     var inp = input[0].toLowerCase();
