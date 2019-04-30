@@ -70,7 +70,7 @@
     "build": "npm run build:webpack",
     "build:webpack": "webpack --mode production --display minimal && chmod +x build/main.js",
     "build:babel": "npm run clean && ./node_modules/@babel/cli/bin/babel.js src/index.js --out-dir build --ignore *.test.js",
-    "production": "npm run clean && node src/index.js"
+    "production": "npm run clean && ava"
   },
   "ava": {
     "files": [
