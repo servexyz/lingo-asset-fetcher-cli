@@ -2,6 +2,8 @@
 
 ---
 
+![travis-build-status](https://travis-ci.org/servexyz/lingo-asset-fetcher-cli.svg?branch=master)
+
 Automate asset retrieval from lingoapp.com
 
 ## Install
