@@ -1,0 +1,28 @@
+{
+  "name": ".laf.json",
+  "value": {
+    "kits": [
+      {
+        "name": "Capswan - Mobile App - Style Guide",
+        "sections": [
+          {
+            "name": "Illustrations"
+          },
+          {
+            "name": "Icons",
+            "headers": ["Icons", "Components"]
+          }
+        ]
+      },
+      {
+        "name": "Test Me",
+        "sections": [
+          {
+            "name": "Illustrations",
+            "headers": ["Lined"]
+          }
+        ]
+      }
+    ]
+  }
+}

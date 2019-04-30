@@ -70,7 +70,13 @@
     "build": "npm run build:webpack",
     "build:webpack": "webpack --mode production --display minimal && chmod +x build/main.js",
     "build:babel": "npm run clean && ./node_modules/@babel/cli/bin/babel.js src/index.js --out-dir build --ignore *.test.js",
-    "production": "npm run clean && ava"
+    "ci": "npm run clean && npm run ci:local:timed",
+    "ci:local": "trevor",
+    "ci:local:timed": "npm run ci:local | gnomon --type=elapsed-total",
+    "ci:local:cache:install": "docker pull verdaccio/verdaccio",
+    "ci:local:cache:run": "docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio",
+    "ci:prepare": "npm install -g trevor gnomon",
+    "production": "npm run clean && npm run test:ava"
   },
   "ava": {
     "files": [
