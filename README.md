@@ -6,6 +6,14 @@
 
 Automate asset retrieval from lingoapp.com
 
+
+## Changelog
+
+| Version | Description | 
+|:--------|:------------|
+| `0.3.4` | Adding Changelog to readme | 
+| `0.3.3` | Updated laf-lib, which changes the default API rate limit from 2000 to 200. This may be reverted in the future |
+
 ## Install
 
 ```
