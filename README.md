@@ -9,9 +9,9 @@ Automate asset retrieval from lingoapp.com
 
 ## Changelog
 
-| Version | Description | 
-|:--------|:------------|
-| `0.3.4` | Adding Changelog to readme | 
+| Version | Description                                                                                                    |
+|:--------|:---------------------------------------------------------------------------------------------------------------|
+| `0.3.4` | Adding Changelog to readme                                                                                     |
 | `0.3.3` | Updated laf-lib, which changes the default API rate limit from 2000 to 200. This may be reverted in the future |
 
 ## Install
@@ -78,7 +78,7 @@ Using generator to create the config file is optional.
   "value": {
     "kits": [
       {
-        "name": "Capswan - Mobile App - Style Guide",
+        "name": "Capswan UI",
         "sections": [
           {
             "name": "Illustrations"
@@ -103,7 +103,7 @@ Using generator to create the config file is optional.
 }
 ```
 
-#### Output at this point
+##### Output at this point
 
 - `.laf.json` with semi-filled config
 
@@ -126,7 +126,7 @@ Using generator to create the config file is optional.
 > Visit [here](http://developer.lingoapp.com/lingojs/#available-file-cuts) to read more about Lingo's available file cuts. This will show you what you conversion possibilities.
 
 | Flag  | Alias | Description        | Defaults      |
-| :---- | :---- | :----------------- | :------------ |
+|-------|-------|--------------------|---------------|
 | --out | -o    | Download directory | "./downloads" |
 | --cut | -c    | File type          | "PNG"         |
 
@@ -143,7 +143,7 @@ All of your files downloaded to the output directory you've specified
 
 ## Appendix
 
-#### A. How file names are constructed
+### A. How file names are constructed
 
 Downloaded filenames are a concatenation of asset name & tag names. Consider the following image:
 
@@ -154,23 +154,23 @@ The highlighted "down arrow" would be named:
 
 ![lingo_file_name_eg](./docs/images/lingo_file_name_eg_output.png)
 
-#### B. `Sketch` + `Lingo` + `LAF` - Workflow Comparisons
+### B. `Sketch` + `Lingo` + `LAF` - Workflow Comparisons
 
 ![LAF_Workflow_Comparison.png](./docs/images/LAF_Workflow_Comparison.png)
 
-#### C. Related
+### C. Related
 
 This CLI wraps `lingo-asset-fetcher-lib`
 
 - `@github`: [lingo-asset-fetcher-lib](https://github.com/servexyz/lingo-asset-fetcher-lib)
 - `@npm`: [laf-lib](https://www.npmjs.com/package/laf-lib)
 
-#### D. Video Tutorials
+### D. Video Tutorials
 
 1. [laf gen](https://youtu.be/J3UH4K_Nu0g)
 2. [laf fetch](https://youtu.be/AeN6RgTHCyQ)
 
-#### E. Blog
+### E. Blog
 
 > Explores the thought process behind LAF + future plans:
 
