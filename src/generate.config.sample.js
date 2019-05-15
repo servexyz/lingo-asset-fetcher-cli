@@ -77,7 +77,7 @@ const lafCliCraftedConfig = {
   value: {
     kits: [
       {
-        name: "Capswan - Mobile App - Style Guide",
+        name: "Capswan UI",
         sections: [
           {
             name: "Illustrations"

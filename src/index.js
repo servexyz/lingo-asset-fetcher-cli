@@ -79,19 +79,4 @@ function initCli(input = "", flags) {
 }
 initCli(input, flags);
 
-//TODO: Add --soft flag (triage, move to GH issues)
-//TODO: Add --hard flag (triage, move to GH issues)
 //TODO: Consider adding --dev flag to prevent overwriting .laf.json & .env when using generate
-
-/*
-----------------------------------------------
-Goal:
-----------------------------------------------
-init(
-	"Capswan - Mobile App - Style Guide",
-	config.capswan.targetOne,
-	"./downloads/capswan/One",
-	"PNG"
-);
-----------------------------------------------
-*/
