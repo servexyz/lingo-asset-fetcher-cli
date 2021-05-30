@@ -50,7 +50,7 @@
     "dotenv": "^7.0.0",
     "fs-extra": "^7.0.1",
     "laf-lib": "^0.3.13",
-    "meow": "^5.0.0"
+    "meow": "^6.0.0"
   },
   "scripts": {
     "start": "node build/main.js",
